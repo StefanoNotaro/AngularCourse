@@ -3,9 +3,9 @@
 
 <div class="row">
     <div class="col-md-4">
-        <img [src]="heroe.img" class="img-fluid" alt="">
+        <img [src]="heroe.img" class="img-fluid" [alt]="heroe.nombre">
         <br><br>
-        <a [routerLink]="['heroes']" class="btn-outline-danger btn-block">Regresar</a>
+        <a [routerLink]="['/heroes']" class="btn-outline-danger btn-block">Regresar</a>
     </div>
 
     <div class="col-md-8">
@@ -16,7 +16,8 @@
         </p>
 
         <div>
-            <img src="" alt="">
+            <img *ngIf="heroe.casa == 'Marvel'" class="img-logo" src="assets/img/marvel-logo.png" alt="">
+            <img *ngIf="heroe.casa == 'DC'" class="img-logo" src="assets/img/dc-logo.jpg" alt="">
         </div>
     </div>
 </div>
