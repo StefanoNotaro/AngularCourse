@@ -39,4 +39,8 @@ export class AppComponent {
 
   video = 'tgbNymZ7vqY';
 
+  contrasena = 'Stefano.1234';
+
+  activar = true;
+
 }
