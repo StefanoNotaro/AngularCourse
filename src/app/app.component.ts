@@ -37,4 +37,6 @@ export class AppComponent {
 
   nombreCompleto = 'steFAno noTaro frANCesco';
 
+  video = 'tgbNymZ7vqY';
+
 }

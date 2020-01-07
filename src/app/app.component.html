@@ -120,6 +120,10 @@
         </tbody>
     </table>
 
+    <h4>YouTube <small>Video</small></h4>
+    <hr>
+    <iframe [src]="video | domseguro:'https://www.youtube.com/embed/'" frameborder="0"></iframe>
+
     <h4>Slice:3:7</h4>
     <ul>
         <li *ngFor="let item of arreglo | slice:3:7">{{ item }}</li>
