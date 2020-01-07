@@ -2,14 +2,14 @@
 <hr>
 
 <div class="card-columns">
-    <div class="card animater fadeIn fast" *ngFor="let heroe of heroes; let i = index">
-        <img [src]="heroe.img" class="card-img-top" [alt]="heroe.nombre">
-        <div class=" card-body ">
-            <h5 class="card-title ">{{heroe.nombre}}</h5>
-            <p class="card-text">{{heroe.bio}}</p>
-            <p class="card-text "><small class="text-muted ">{{ heroe.aparicion }}</small></p>
+    <div class="card animated fadeIn fast" *ngFor="let hero of heroes; let i = index">
+        <img [src]="hero.img" class="card-img-top" [alt]="hero.img">
+        <div class="card-body">
+            <h5 class="card-title">{{ hero.nombre }}</h5>
+            <p class="card-text">{{ hero.bio }}</p>
+            <p class="card-text"><small class="text-muted">{{ hero.aparicion }}</small></p>
 
-            <button (click)="verHeroe(i)" class="btn btn-outline-primary btn-block ">
+            <button (click)="verHeroe(i)" class="btn btn-outline-primary btn-block">
                 Ver más...
             </button>
 
