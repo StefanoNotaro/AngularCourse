@@ -92,6 +92,31 @@
                 <td>async</td>
                 <td>{{ valorDePromesa | async }}</td>
             </tr>
+            <tr>
+                <td>{{ fecha }}</td>
+                <td>date</td>
+                <td>{{ fecha | date }}</td>
+            </tr>
+            <tr>
+                <td>{{ fecha }}</td>
+                <td>date:'medium'</td>
+                <td>{{ fecha | date:'medium' }}</td>
+            </tr>
+            <tr>
+                <td>{{ fecha }}</td>
+                <td>date:'dd-MM-yyyy'</td>
+                <td>{{ fecha | date:'dd-MM-yyyy' }}</td>
+            </tr>
+            <tr>
+                <td>{{ nombreCompleto }}</td>
+                <td>capitalizado</td>
+                <td>{{ nombreCompleto | capitalizado }}</td>
+            </tr>
+            <tr>
+                <td>{{ nombreCompleto }}</td>
+                <td>capitalizado:false</td>
+                <td>{{ nombreCompleto | capitalizado:false }}</td>
+            </tr>
         </tbody>
     </table>
 

@@ -33,4 +33,8 @@ export class AppComponent {
     }, 3500);
   } );
 
+  fecha = new Date();
+
+  nombreCompleto = 'steFAno noTaro frANCesco';
+
 }
