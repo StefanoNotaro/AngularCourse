@@ -1,0 +1,17 @@
+<h1>Buscando: <small>{{ termino }}</small></h1>
+<hr>
+
+<div *ngIf="heroes.length <= 0" class="row">
+    <div class="col-md-12">
+        <div class="alert alert-info" role="alert">
+            <strong>No existen resultados para el termino: {{ termino }}</strong>
+            <a href="#" class="alert-link"></a>
+        </div>
+    </div>
+</div>
+
+<div class="card-columns">
+    <app-heroe-tarjeta *ngFor="let heroe of heroes" [heroe]="heroe" [index]="heroe.index">
+
+    </app-heroe-tarjeta>
+</div>
