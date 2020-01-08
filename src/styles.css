@@ -9,6 +9,14 @@ hr {
     border-color: white;
 }
 
+th {
+    color: whitesmoke;
+}
+
+td {
+    color: whitesmoke;
+}
+
 .puntero {
     cursor: pointer;
 }
