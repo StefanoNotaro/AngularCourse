@@ -7,7 +7,7 @@ import { map } from 'rxjs/operators';
 const AUTHORIZATION_TYPE = 'Bearer';
 const CLIENT_ID = '6addf0d494054a20a88c26c3c0c08148';
 const CLIENT_SECRET = 'b3c99197302b4654b38695ada8c1e198';
-const TEMP_TOKEN = 'BQB5isj7B0eZYiGcn4rI0fM3wgtxrSDhO57mdy04Jel_VhJOGeaS1a21ncEskODOxxwn-8pvOxmKLq5hUUCbpWZSc6xummzw9ZIpmcplQaLXfsZhaHufcdQC_ZF9l9IIFlfMJCKDXt2SFxKqByNYZe7WhUFb-boLYnY';
+const TEMP_TOKEN = 'BQDcnnqHXs0gsJ0rOUMfFX35cB0d5nbhG4-vYqOpSPqpuILq3qRhc_wA2VbTbasuxoINGx_b9gfkyqHJBi0Z3QRRsA8LFDQsbGLHGkFViJdEqo_qzmsx6Rn_CELu0dQX06yp_vmIbLADxUphYHpw6Tw3nGAZft18HgA';
 
 
 @Injectable({
