@@ -12,13 +12,24 @@ export class HomeComponent implements OnInit {
 
   loading: boolean;
 
+  error = false;
+
+  errorReturned: any = {};
+
   constructor( private _spotifyService: SpotifyService ) {
     this.loading = true;
+    this.error = false;
 
     this._spotifyService.getNewReleases()
       .subscribe( data => {
         this.nuevasCanciones = data;
         this.loading = false;
+      },
+      ( serviceError ) => {
+        console.log(serviceError);
+        this.errorReturned = serviceError.error.error;
+        this.loading = false;
+        this.error = true;
       });
   }
 
