@@ -1,0 +1,18 @@
+<button type="button" class="btn btn-outline-success" (click)="alerta='success'">
+    Change to success
+</button>
+
+<div [ngSwitch]="alerta">
+    <div *ngSwitchCase="'success'" class="alert alert-success" role="alert">
+        A simple success alert—check it out!
+    </div>
+    <div *ngSwitchCase="'info'" class="alert alert-info" role="alert">
+        A simple info alert—check it out!
+    </div>
+    <div *ngSwitchCase="'warning'" class="alert alert-warning" role="alert">
+        A simple warning alert—check it out!
+    </div>
+    <div *ngSwitchDefault class="alert alert-dark" role="alert">
+        A simple dark alert—check it out!
+    </div>
+</div>
