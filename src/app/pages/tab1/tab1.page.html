@@ -8,11 +8,8 @@
 
 
 <ion-content color="dark">
-    <ion-list color="dark">
-        <ion-item detail *ngFor="let item of _deseosService.listas" color="dark">
-            <ion-label>{{ item.titulo }}</ion-label>
-        </ion-item>
-    </ion-list>
+
+    <app-listas [terminada]="false"></app-listas>
 
     <ion-fab vertical="bottom" horizontal="end" slot="fixed">
         <ion-fab-button (click)="agregarListaAsync()" color="tertiary">

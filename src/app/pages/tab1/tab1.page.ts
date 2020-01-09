@@ -15,12 +15,12 @@ export class Tab1Page {
   }
 
   async agregarListaAsync() {
-    // this._router.navigateByUrl('/tabs/tab1/agregar');
-      const alert = await this._alertController.create({
-        header: 'Nueva lista',
-        inputs: [
-          {
-            name: 'titulo',
+    const alert = await this._alertController.create({
+      header: 'Nueva lista',
+      inputs: [
+        {
+          name: 'titulo',
+            id: 'alertPrompt',
             type: 'text',
             placeholder: 'Nombre de la lista'
           }
@@ -30,7 +30,6 @@ export class Tab1Page {
             text: 'Cancelar',
             role: 'cancel',
             handler: () => {
-              console.log('Cancelar');
             }
           },
           {
@@ -40,13 +39,15 @@ export class Tab1Page {
                 return;
               }
 
-              this._deseosService.crearLista( data.titulo );
+              const listaId = this._deseosService.crearLista( data.titulo );
+
+              this._router.navigateByUrl(`/tabs/tab1/agregar/${ listaId }`);
             }
           }
         ]
       });
-    
-      alert.present();
+
+    alert.present().then( () => { document.getElementById( 'alertPrompt' ).focus(); });
   }
 
 }

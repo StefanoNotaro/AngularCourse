@@ -10,13 +10,26 @@ export class DeseosService {
 
   constructor() {
     this.cargarStorage();
-    console.log(this.listas);
   }
 
   crearLista( titulo: string) {
     const nuevaLista = new Lista( titulo );
     this.listas.push( nuevaLista );
     this.guardarStorage();
+
+    return nuevaLista.id;
+  }
+
+  borrarLista( lista: Lista ) {
+    this.listas = this.listas.filter( x => x.id !== lista.id );
+
+    this.guardarStorage();
+  }
+
+  obtenerList( listaId: string | number ) {
+    listaId = Number( listaId );
+
+    return this.listas.find( x => x.id === listaId);
   }
 
   guardarStorage() {
