@@ -8,12 +8,13 @@
             <li class="nav-item" routerLinkActive="active">
                 <a class="nav-link" [routerLink]="['precios']">Precios</a>
             </li>
-            <li class="nav-item" routerLinkActive="active">
+            <li class="nav-item" routerLinkActive="active" *ngIf="_auth.loggedIn">
                 <a class="nav-link" [routerLink]="['protegida']">Protegida</a>
             </li>
         </ul>
         <span class="navbar-text">
-        Navbar text with an inline element
-      </span>
+            <button *ngIf="!_auth.loggedIn" type="button" class="btn btn-outline-primary" (click)="_auth.login()">Ingresar</button>
+            <button *ngIf="_auth.loggedIn" type="button" class="btn btn-outline-danger" (click)="_auth.logout()">Salir</button>
+        </span>
     </div>
 </nav>
