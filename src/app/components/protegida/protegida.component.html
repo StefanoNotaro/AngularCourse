@@ -1,1 +1,5 @@
-<p>protegida works!</p>
+<h1>Perfil del usuario: <small><span *ngIf="_auth.userProfile$ | async as profile">{{ profile.given_name }}</span></small></h1>
+
+<pre *ngIf="_auth.userProfile$ | async as profile">
+    <code>{{ profile | json }}</code>
+</pre>

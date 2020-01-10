@@ -1,4 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" *ngIf="_auth.userProfile$ | async as profile">
+        <img [src]="profile.picture" width="30" height="30" alt="">
+    </a>
     <a class="navbar-brand" href="#">Auth0 App</a>
     <div class="collapse navbar-collapse" id="navbarText">
         <ul class="navbar-nav mr-auto">
