@@ -13,6 +13,10 @@ export class HeroesService {
 
   constructor( private _httpClient: HttpClient ) { }
 
+  borrarHeroe( heroeId: string ) {
+    return this._httpClient.delete(`${this.url}/heroes/${heroeId}.json`);
+  }
+
   crearHeroe( heroe: HeroeModel ) {
     return this._httpClient.post( `${ this.url }/heroes.json`, heroe )
       .pipe( map( (resp: any) => {
