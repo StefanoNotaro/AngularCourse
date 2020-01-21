@@ -1,6 +1,63 @@
-<h1>Popular movies</h1>
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+        <h1 class="display-3">MovieApp</h1>
+        <p class="lead">Application of movies</p>
+    </div>
+</div>
+
+<div class="container">
+    <br>
+    <h1>Billboard</h1>
+    <hr>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="row">
+                <div class="col-md-12 div-pic-1" [ngStyle]="{'background-image': 'url(http://image.tmdb.org/t/p/w500/xBHvZcjRiWyobQ9kxBhO6B2dtRI.jpg)'}">
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6 div-pic-2" [ngStyle]="{'background-image': 'url(http://image.tmdb.org/t/p/w500/xBHvZcjRiWyobQ9kxBhO6B2dtRI.jpg)'}">
+                </div>
+                <div class="col-sm-6 div-pic-2" [ngStyle]="{'background-image': 'url(http://image.tmdb.org/t/p/w500/xBHvZcjRiWyobQ9kxBhO6B2dtRI.jpg)'}">
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="row">
+                <div class="col-sm-6 div-pic-2" [ngStyle]="{'background-image': 'url(http://image.tmdb.org/t/p/w500/xBHvZcjRiWyobQ9kxBhO6B2dtRI.jpg)'}">
+                </div>
+                <div class="col-sm-6 div-pic-2" [ngStyle]="{'background-image': 'url(http://image.tmdb.org/t/p/w500/xBHvZcjRiWyobQ9kxBhO6B2dtRI.jpg)'}">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 div-pic-1" [ngStyle]="{'background-image': 'url(http://image.tmdb.org/t/p/w500/xBHvZcjRiWyobQ9kxBhO6B2dtRI.jpg)'}">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <h1>Popular movies</h1>
 <div class="row row-cols-1 row-cols-md-3">
     <div class="col mb-4" *ngFor="let movie of popularMovies">
+        <div class="card h-100">
+            <img src="http://image.tmdb.org/t/p/w300{{ movie.poster_path }}" class="card-img-top">
+            <div class="card-body">
+                <h4 class="card-title">{{ movie?.original_title }}</h4>
+                <p class="card-text">{{ movie?.overview }}</p>
+            </div>
+            <div class="btn btn-primary" (click)="moreInfo( movie.id )">More info...</div>
+        </div>
+    </div>
+</div> -->
+<!--
+<h1>Child movies</h1>
+<div class="row row-cols-1 row-cols-md-3" *ngIf="childMovies.length > 0">
+    <div class="col mb-4" *ngFor="let movie of childMovies">
         <div class="card h-100">
             <img src="http://image.tmdb.org/t/p/w300{{ movie.backdrop_path }}" class="card-img-top">
             <div class="card-body">
@@ -10,4 +67,4 @@
             <div class="btn btn-primary" (click)="moreInfo( movie.id )">More info...</div>
         </div>
     </div>
-</div>
+</div> -->

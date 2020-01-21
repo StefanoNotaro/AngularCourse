@@ -11,10 +11,19 @@ export class HomeComponent implements OnInit {
 
   popularMovies = [];
 
-  constructor(private _movieService: MoviesService, private _router: Router) {
+  childMovies = [];
+
+  constructor(public _movieService: MoviesService, private _router: Router) {
     _movieService.getPopulars().subscribe((x: any) => {
-      console.log(x);
       this.popularMovies = x.results;
+    });
+
+    _movieService.getChildMovies().subscribe( (x: any) => {
+      this.childMovies = x.results;
+    });
+
+    _movieService.getBillboard().subscribe( (x: any) => {
+      console.log('Billboard: ', x);
     });
   }
 
