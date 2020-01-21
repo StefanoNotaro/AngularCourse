@@ -6,7 +6,7 @@ import { BuscarComponent } from './components/buscar/buscar.component';
 const ROUTES: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'buscar', component: BuscarComponent },
-  { path: '**', pathMatch: 'full', redirectTo: 'heroes' }
+  { path: '**', pathMatch: 'full', redirectTo: 'home' }
 ];
 
 @NgModule({
