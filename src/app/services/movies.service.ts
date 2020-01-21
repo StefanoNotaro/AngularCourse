@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { HttpModule, JsonpModule } from '@angular/http';
-// import { map } from 'rxjs/Rx'
-import { map } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
 
 
 @Injectable({
@@ -12,13 +10,21 @@ export class MoviesService {
 
   private apiKey = '6145be75be158f7e36be536b458970b6';
   private movieUrl = 'https://api.themoviedb.org/3';
+  public movie: any = {};
 
-  constructor(private jsonp: JsonpModule, private http: HttpModule) {
+  constructor(private http: HttpClient) {
   }
+
   getPopulars() {
     const url = `${ this.movieUrl }/discover/movie?sort_by=popularity.desc&api_key=${ this.apiKey }&languages=es`;
 
-    return this.http.get(url).map( res => res.json());
+    return this.http.jsonp(url, 'callback');
+  }
+
+  FindMovie(termOfSearch: string) {
+    const url = `${ this.movieUrl }/search/movie?query=${ termOfSearch }&sort_by=popularity.desc&api_key=${ this.apiKey }&language=es`;
+
+    return this.http.jsonp(url, 'callback');
   }
 
 }

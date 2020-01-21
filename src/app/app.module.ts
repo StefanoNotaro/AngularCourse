@@ -8,20 +8,24 @@ import { HomeComponent } from './components/home/home.component';
 import { BuscarComponent } from './components/buscar/buscar.component';
 import { NavbarComponent } from './components/shared/navbar/navbar.component';
 import { AppRoutingModule } from './app-routing.module';
+import { FormsModule } from '@angular/forms';
+import { MovieComponent } from './components/movie/movie.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     BuscarComponent,
-    NavbarComponent
+    NavbarComponent,
+    MovieComponent
   ],
   imports: [
     BrowserModule,
     RouterModule,
     AppRoutingModule,
     HttpClientModule,
-    HttpClientJsonpModule
+    HttpClientJsonpModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
