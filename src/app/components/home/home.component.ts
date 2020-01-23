@@ -9,21 +9,24 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
 
-  popularMovies = [];
+  popularMovies: any;
 
-  childMovies = [];
+  childMovies: any;
+
+  billboard: any;
 
   constructor(public _movieService: MoviesService, private _router: Router) {
-    _movieService.getPopulars().subscribe((x: any) => {
+
+    _movieService.getBillboard().subscribe( (x: any) => {
+      this.billboard = x.results;
+    });
+
+    _movieService.getPopulars().subscribe( (x: any) => {
       this.popularMovies = x.results;
     });
 
     _movieService.getChildMovies().subscribe( (x: any) => {
       this.childMovies = x.results;
-    });
-
-    _movieService.getBillboard().subscribe( (x: any) => {
-      console.log('Billboard: ', x);
     });
   }
 

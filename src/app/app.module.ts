@@ -10,6 +10,9 @@ import { NavbarComponent } from './components/shared/navbar/navbar.component';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule } from '@angular/forms';
 import { MovieComponent } from './components/movie/movie.component';
+import { PeliculaImagenPipe } from './pipes/pelicula-imagen.pipe';
+import { GaleryComponent } from './components/home/galery.component';
+import { FillPipe } from './pipes/fill.pipe';
 
 @NgModule({
   declarations: [
@@ -17,7 +20,10 @@ import { MovieComponent } from './components/movie/movie.component';
     HomeComponent,
     BuscarComponent,
     NavbarComponent,
-    MovieComponent
+    MovieComponent,
+    PeliculaImagenPipe,
+    GaleryComponent,
+    FillPipe
   ],
   imports: [
     BrowserModule,

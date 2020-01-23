@@ -1,12 +1,22 @@
-<div class="row container">
-    <div class="col-4">
-        <img src="http://image.tmdb.org/t/p/w300{{selectedMovie.poster_path}}">
+<div class="container main-container animated fadeIn fast">
+    <h1>{{ selectedMovie.original_title }}</h1>
+    <div class="row">
+        <div class="col-md-5">
+            <img [src]="selectedMovie | peliculaImagen:true" [alt]="selectedMovie.original_title" class="img-thumbnail img-fluid">
+        </div>
+        <div class="col-md-7">
+            <h1>Sinopsis</h1>
+            <hr>
+            <p class="text-justify">{{selectedMovie.overview}}</p>
+            <hr>
+            <p>{{selectedMovie.tagline}}</p>
+            <hr>
+            <p>Rating: <span *ngFor="let i of selectedMovie.vote_average / 2 | fill"><i class="fa fa-star"></i></span> <span class="badge badge-light"> - {{ selectedMovie.vote_average * 10 | number:'.0-2' }}%</span></p>
+            <button (click)="back()" class="btn btn-outline-danger">
+                <i class="fas fa-backward"></i>
+                Regresar
+            </button>
+        </div>
     </div>
-    <div class="col-8">
-        <h1>{{selectedMovie.title}}</h1>
-        <p>{{selectedMovie.overview}}</p>
-    </div>
-</div>
-<div class="col-4">
-    <button (click)="back()" class="btn btn-outline-danger">Regresar</button>
+    <span class="badge badge-light" *ngFor="let genre of selectedMovie.genres">{{genre.name}} </span>
 </div>

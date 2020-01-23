@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {NgForm} from '@angular/forms';
 import { MoviesService } from '../../../services/movies.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -9,22 +10,19 @@ import { MoviesService } from '../../../services/movies.service';
 })
 export class NavbarComponent implements OnInit {
 
-  buscar = '';
-
-  foundedMovies = [];
-
-  constructor(private _movieService: MoviesService) { }
+  constructor(private _movieService: MoviesService, private _router: Router) { }
 
   ngOnInit() {
   }
 
-  findMovie() {
-    console.log('Termino de busqueda: ', this.buscar);
-    this._movieService.FindMovie(this.buscar).subscribe((x: any) => {
-      this.foundedMovies = x.results;
-      console.log(this.foundedMovies);
-
-    });
+  findMovie(buscar: string) {
+    if (!buscar || buscar.length === 0) {
+      return;
+    }
+    this._router.navigate(['/buscar', buscar]);
+    // this._movieService.FindMovie(buscar).subscribe((x: any) => {
+    //   this._router.navigate(['/buscar', buscar]);
+    // });
   }
 
 }

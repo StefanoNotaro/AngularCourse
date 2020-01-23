@@ -13,9 +13,9 @@
                 <a class="nav-link" [routerLink]="['/buscar']" routerLinkActive="active">Buscar</a>
             </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Buscar" [(ngModel)]="buscar" name="buscar" (keyup.enter)="findMovie()">
-            <button class="btn btn-outline-primary my-2 my-sm-0" type="submit" (click)="findMovie()">Buscar</button>
+        <form class="form-inline my-2 my-lg-0" (ngSubmit)="findMovie(buscar.value)">
+            <input class="form-control mr-sm-2" type="text" placeholder="Buscar" #buscar>
+            <button class="btn btn-outline-primary my-2 my-sm-0 " type="submit " (click)="findMovie() ">Buscar</button>
         </form>
     </div>
 </nav>

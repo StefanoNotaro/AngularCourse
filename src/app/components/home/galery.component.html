@@ -1,0 +1,35 @@
+<br>
+
+<h1>{{ title }}</h1>
+<hr>
+
+<div class="row animated fadeIn fast" *ngIf="movies">
+    <div class="col-sm-6">
+        <div class="row">
+            <div class="col-md-12 div-pic-1 puntero" (click)="imageClick(movies[0])" [ngStyle]="{'background-image': 'url(' + ( movies[0] | peliculaImagen ) + ')'}">
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6 div-pic-2 puntero" (click)="imageClick(movies[1])" [ngStyle]="{'background-image': 'url(' + ( movies[1] | peliculaImagen ) + ')'}">
+            </div>
+            <div class="col-sm-6 div-pic-2 puntero" (click)="imageClick(movies[2])" [ngStyle]="{'background-image': 'url(' + ( movies[2] | peliculaImagen ) + ')'}">
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="row">
+            <div class="col-sm-6 div-pic-2 puntero" (click)="imageClick(movies[3])" [ngStyle]="{'background-image': 'url(' + ( movies[3] | peliculaImagen ) + ')'}">
+            </div>
+            <div class="col-sm-6 div-pic-2 puntero" (click)="imageClick(movies[4])" [ngStyle]="{'background-image': 'url(' + ( movies[4] | peliculaImagen ) + ')'}">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 div-pic-1 puntero" (click)="imageClick(movies[5])" [ngStyle]="{'background-image': 'url(' + ( movies[5] | peliculaImagen ) + ')'}">
+
+            </div>
+        </div>
+    </div>
+</div>
