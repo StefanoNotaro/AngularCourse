@@ -12,13 +12,15 @@ import { CargaComponent } from './components/carga/carga.component';
 import { NavbarComponent } from './components/shared/navbar/navbar.component';
 
 import { APP_ROUTES } from './app.routes';
+import { NgDropFilesDirective } from './directives/ng-drop-files.directive';
 
 @NgModule({
   declarations: [
     AppComponent,
     FotosComponent,
     CargaComponent,
-    NavbarComponent
+    NavbarComponent,
+    NgDropFilesDirective
   ],
   imports: [
     BrowserModule,

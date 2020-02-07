@@ -11,6 +11,8 @@ export class CargaComponent implements OnInit {
 
   archivos: FileItem[] = [];
 
+  estaSobreDrop = false;
+
   constructor(public _cargaImagenesService: CargaImagenesService) {
   }
 
@@ -19,6 +21,14 @@ export class CargaComponent implements OnInit {
 
   cargarImagenes() {
     this._cargaImagenesService.cargarImagenesFirebase(this.archivos);
+  }
+
+  limpiarArchivos() {
+    this.archivos = [];
+  }
+
+  pruebaSobreelemento(event: any) {
+    console.log(event);
   }
 
 }

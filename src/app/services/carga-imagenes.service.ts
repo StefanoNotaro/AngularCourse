@@ -13,7 +13,21 @@ export class CargaImagenesService {
   constructor(private _angularFireStore: AngularFirestore) { }
 
   cargarImagenesFirebase(imagenes: FileItem[]) {
-    console.log(imagenes);
+    const STORAGE_REF = firebase.storage().ref();
+
+    imagenes.forEach(x => {
+      x.estaSubiendo = true;
+      if (x.progreso < 100) {
+        const UPLOAD_TASK: firebase.storage.UploadTask = STORAGE_REF
+          .child(`${ this.CARPETA_IMAGENES }/${ x.nombreArchivo }`)
+          .put(x.archivo);
+
+        UPLOAD_TASK.on(firebase.storage.TaskEvent.STATE_CHANGED,
+            (snapshot) => x.progreso = (snapshot.bytesTransferred / snapshot.totalBytes) * 100,
+            (error) => console.error('Error al subir el archivo: ', error)
+          );
+      }
+    });
   }
 
   private guardarImagen(imagen: { nombre: string, url: string }) {
