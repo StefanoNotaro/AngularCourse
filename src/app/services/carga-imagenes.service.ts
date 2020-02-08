@@ -24,7 +24,16 @@ export class CargaImagenesService {
 
         UPLOAD_TASK.on(firebase.storage.TaskEvent.STATE_CHANGED,
             (snapshot) => x.progreso = (snapshot.bytesTransferred / snapshot.totalBytes) * 100,
-            (error) => console.error('Error al subir el archivo: ', error)
+            (error) => console.error('Error al subir el archivo: ', error),
+            () => {
+              console.log('Imagen cargada correctamente!');
+              x.url = UPLOAD_TASK.snapshot.downloadURL;
+              x.estaSubiendo = false;
+              this.guardarImagen({
+                nombre: x.nombreArchivo,
+                url: x.url
+              });
+            }
           );
       }
     });
