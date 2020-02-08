@@ -3,17 +3,19 @@ import { NgModule } from '@angular/core';
 // import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http'; // Http client import
 
 // Routes
-// import { APP_ROUTES } from './app.routes';
+import { APP_ROUTES } from './app.routes';
 
 import { AppComponent } from './app.component';
+import { NavbarComponent } from './components/shared/navbar/navbar.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,
-    // APP_ROUTES,
+    APP_ROUTES,
   ],
   providers: [],
   bootstrap: [AppComponent]
