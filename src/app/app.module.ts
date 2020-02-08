@@ -1,7 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-// import { RouterModule } from '@angular/router'; // Used with router outlet
 // import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http'; // Http client import
+
+// Routes
+// import { APP_ROUTES } from './app.routes';
 
 import { AppComponent } from './app.component';
 
@@ -10,7 +12,8 @@ import { AppComponent } from './app.component';
     AppComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    // APP_ROUTES,
   ],
   providers: [],
   bootstrap: [AppComponent]
