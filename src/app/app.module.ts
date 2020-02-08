@@ -1,8 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router'; // Used with router outlet
 // import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http'; // Http client import
 import { ChartsModule } from 'ng2-charts';
+
+// Routes
+import { APP_ROUTES } from './app.routes';
 
 import { AppComponent } from './app.component';
 import { LineaComponent } from './components/linea/linea.component';
@@ -16,8 +18,8 @@ import { NavbarComponent } from './components/shared/navbar/navbar.component';
   ],
   imports: [
     BrowserModule,
-    RouterModule,
-    ChartsModule
+    APP_ROUTES,
+    ChartsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
