@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-// import { RouterModule } from '@angular/router'; // Used with router outlet
+import { RouterModule } from '@angular/router'; // Used with router outlet
 // import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http'; // Http client import
 import { ChartsModule } from 'ng2-charts';
 
@@ -16,6 +16,7 @@ import { NavbarComponent } from './components/shared/navbar/navbar.component';
   ],
   imports: [
     BrowserModule,
+    RouterModule,
     ChartsModule
   ],
   providers: [],
