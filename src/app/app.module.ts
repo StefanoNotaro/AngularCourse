@@ -8,11 +8,13 @@ import { ScrollingModule } from "@angular/cdk/scrolling";
 
 import { AppComponent } from './app.component';
 import { VirtualComponent } from './components/virtual/virtual.component';
+import { DragComponent } from './components/drag/drag.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    VirtualComponent
+    VirtualComponent,
+    DragComponent
   ],
   imports: [
     BrowserModule,
