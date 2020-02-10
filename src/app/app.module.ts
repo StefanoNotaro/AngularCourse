@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 
 // Routes
 // import { AppRoutingModule } from './app-routing.module';
+// import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
 
@@ -14,6 +15,7 @@ import { AppComponent } from './app.component';
   imports: [
     BrowserModule,
     // AppRoutingModule,
+    // RouterModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
