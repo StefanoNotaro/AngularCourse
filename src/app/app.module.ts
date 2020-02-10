@@ -3,17 +3,21 @@ import { NgModule } from '@angular/core';
 // import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http'; // Http client import
 
 // Routes
-// import { APP_ROUTES } from './app.routes';
+import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
+import { InicioComponent } from './pages/inicio/inicio.component';
+import { GotyComponent } from './pages/goty/goty.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    InicioComponent,
+    GotyComponent
   ],
   imports: [
     BrowserModule,
-    // APP_ROUTES,
+    AppRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
