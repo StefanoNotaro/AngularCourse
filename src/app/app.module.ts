@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 // import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http'; // Http client import
 
 // Routes
-// import { APP_ROUTES } from './app.routes';
+// import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
 
@@ -13,7 +13,7 @@ import { AppComponent } from './app.component';
   ],
   imports: [
     BrowserModule,
-    // APP_ROUTES,
+    // AppRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
