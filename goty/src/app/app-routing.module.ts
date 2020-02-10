@@ -6,7 +6,7 @@ import { GotyComponent } from './pages/goty/goty.component';
 
 const ROUTES: Routes = [
     { path: 'inicio', component: InicioComponent },
-    { path: 'goty', component: GotyComponent },
+    { path: 'votar', component: GotyComponent },
     { path: '**', pathMatch: 'full', redirectTo: 'inicio' }
 ];
 
