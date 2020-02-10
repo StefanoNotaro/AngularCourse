@@ -1,0 +1,14 @@
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <a class="navbar-brand" href="#">
+        <img [src]="navBarLogoURL" width="30" height="30" alt="angular logo">
+    </a>
+    <a class="navbar-brand" href="#">{{ navbarName }}</a>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav">
+            <li class="nav-item" routerLinkActive="active" *ngFor="let menu of rutas">
+                <a class="nav-link" [routerLink]="menu.toLowerCase()">{{menu}}</a>
+            </li>
+        </ul>
+    </div>
+</nav>
