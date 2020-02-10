@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 // Routes
-import { APP_ROUTES } from './app.routes';
+// import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/shared/navbar/navbar.component';
@@ -14,7 +14,7 @@ import { NavbarComponent } from './components/shared/navbar/navbar.component';
   ],
   imports: [
     BrowserModule,
-    APP_ROUTES,
+    // AppRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
