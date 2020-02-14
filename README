@@ -1,0 +1,5 @@
+- Run command: ng serve -o
+    --This start the application at port 4200
+
+-Run command: json-server db.json -w
+    --This start the json server at port 3000
