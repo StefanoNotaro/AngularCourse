@@ -24,4 +24,8 @@ export class DatabaseService {
   postNewEmployee(employee: Employees) {
     return this._httpClient.post(this.url, employee);
   }
+
+  updateEmployee(employee: Employees) {
+    return this._httpClient.put(this.url, employee);
+  }
 }
