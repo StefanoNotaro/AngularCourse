@@ -1,0 +1,40 @@
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">{{ modalTitle }}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <form [formGroup]="forma" (ngSubmit)="guardar()">
+        <div class="modal-body">
+            <div class="form-group row">
+                <label class="col-2 col-form-label">Nombre</label>
+                <div class="col-md-8">
+                    <input class="form-control" placeholder="Nombre" formControlName="firstName" [ngClass]="{ 'is-invalid': forma.controls['firstName'].invalid && !forma.untouched }">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-2 col-form-label">Apellido</label>
+                <div class="col-md-8">
+                    <input class="form-control" placeholder="Apellido" formControlName="lastName" [ngClass]="{ 'is-invalid': forma.controls['lastName'].invalid && !forma.untouched }">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-2 col-form-label">Correo</label>
+                <div class="col-md-8">
+                    <input class="form-control" type="email" placeholder="Correo electrónico" formControlName="email" placement="top" ngbTooltip="example@emaple.com" [ngClass]="{ 'is-invalid': forma.controls['email'].invalid && !forma.untouched }">
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+    </div>
+</ng-template>
+
+<button class="btn" [ngClass]="{'btn-outline-success': buttonIcon === 'add', 'btn-primary': buttonIcon === 'edit'}" (click)="open(content)">
+    <i *ngIf="buttonIcon === 'add'" class="fas fa-plus-circle"></i>
+    <i *ngIf="buttonIcon === 'edit'" class="fas fa-edit"></i>
+</button>
