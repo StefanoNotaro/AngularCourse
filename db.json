@@ -1,22 +1,92 @@
 {
-    "cliente": [
-        { "id": 1, "nombreCompleto": "Pablo Acosta", "cedula": "66913574", "direccion": "Bulevar Artigas 1261", "telefono": "22085421", "fechaNacimiento": "1993-02-25T18:25:43.511Z" },
-        { "id": 2, "nombreCompleto": "Ana Perez", "cedula": "89541695", "direccion": "San Martin 1454", "telefono": "22085781", "fechaNacimiento": "1987-05-21T18:25:43.511Z" },
-        { "id": 3, "nombreCompleto": "Carmen Gonzalez", "cedula": "42691449", "direccion": "San Martin 2454", "telefono": "22081281", "fechaNacimiento": "1983-03-05T18:25:43.511Z" },
-        { "id": 4, "nombreCompleto": "Esteban Muro", "cedula": "1241459", "direccion": "Millan 1432", "telefono": "22042312", "fechaNacimiento": "1978-01-08T18:25:43.511Z" },
-        { "id": 5, "nombreCompleto": "Marcela Rodriguez", "cedula": "48371932", "direccion": "Melo 2432", "telefono": "29242548", "fechaNacimiento": "1994-07-11T18:25:43.511Z" },
-        { "id": 6, "nombreCompleto": "Cristian Dominguez", "cedula": "40893370", "direccion": "Domingo Aramburu 1561", "telefono": "22012457", "fechaNacimiento": "1990-10-30T18:25:43.511Z" }
-    ],
-
-    "servicios": [
-        { "id": 1, "nombre": "Seguro Hogar", "cuotaMensual": 200 },
-        { "id": 2, "nombre": "Seguro Auto", "cuotaMensual": 100 },
-        { "id": 3, "nombre": "Seguro De vida", "cuotaMensual": 50 }
-    ],
-
-    "clienteServicio": [{
-        "clienteId": 0,
-        "servicioId": 0,
-        "fechaAsociado": "2019-10-30T18:25:43.511Z"
-    }]
+  "cliente": [
+    {
+      "id": 1,
+      "nombreCompleto": "Pablo Acosta",
+      "cedula": "66913574",
+      "direccion": "Bulevar Artigas 1261",
+      "telefono": "22085421",
+      "fechaNacimiento": "1993-02-25T18:25:43.511Z"
+    },
+    {
+      "id": 2,
+      "nombreCompleto": "Ana Perez",
+      "cedula": "89541695",
+      "direccion": "San Martin 1454",
+      "telefono": "22085781",
+      "fechaNacimiento": "1987-05-21T18:25:43.511Z"
+    },
+    {
+      "id": 3,
+      "nombreCompleto": "Carmen Gonzalez",
+      "cedula": "42691449",
+      "direccion": "San Martin 2454",
+      "telefono": "22081281",
+      "fechaNacimiento": "1983-03-05T18:25:43.511Z"
+    },
+    {
+      "id": 4,
+      "nombreCompleto": "Esteban Muro",
+      "cedula": "1241459",
+      "direccion": "Millan 1432",
+      "telefono": "22042312",
+      "fechaNacimiento": "1978-01-08T18:25:43.511Z"
+    },
+    {
+      "id": 5,
+      "nombreCompleto": "Marcela Rodriguez",
+      "cedula": "48371932",
+      "direccion": "Melo 2432",
+      "telefono": "29242548",
+      "fechaNacimiento": "1994-07-11T18:25:43.511Z"
+    },
+    {
+      "id": 6,
+      "nombreCompleto": "Cristian Dominguez",
+      "cedula": "40893370",
+      "direccion": "Domingo Aramburu 1561",
+      "telefono": "22012457",
+      "fechaNacimiento": "1990-10-30T18:25:43.511Z"
+    },
+    {
+      "id": 7,
+      "nombreCompleto": "Stefano Notaro",
+      "cedula": "45846297",
+      "direccion": "Algun Lugar de Narnia",
+      "telefono": "097478640",
+      "fechaNacimiento": "1990-10-30T18:25:43.511Z"
+    },
+    {
+      "id": 8,
+      "nombreCompleto": "Stefano Notaro",
+      "cedula": "45846297",
+      "direccion": "Algun Lugar de Narnia",
+      "telefono": "097478640",
+      "fechaNacimiento": "1990-10-30T18:25:43.511Z"
+    }
+  ],
+  "servicios": [
+    {
+      "id": 1,
+      "nombre": "Seguro Hogar",
+      "cuotaMensual": 200
+    },
+    {
+      "id": 2,
+      "nombre": "Seguro Auto",
+      "cuotaMensual": 100
+    },
+    {
+      "id": 3,
+      "nombre": "Seguro De vida",
+      "cuotaMensual": 50
+    }
+  ],
+  "clienteServicio": [
+    {
+      "clienteId": 0,
+      "servicioId": 0,
+      "fechaAsociado": "2019-10-30T18:25:43.511Z"
+    }
+  ]
 }
