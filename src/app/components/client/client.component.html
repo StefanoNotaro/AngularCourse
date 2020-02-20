@@ -1,4 +1,100 @@
-<p>client works!</p>
-<pre>
-<hr> {{client | json}}
-</pre>
+<form [formGroup]="forma">
+
+    <div class="form-group row col-10">
+        <label>Nombre Completo: </label>
+        <input [attr.disabled]="isEditionEnabled ? null: ''" class="form-control" type="text" placeholder="Nombre de usuario" formControlName="nombreCompleto" [ngClass]=" { 'is-invalid': forma.get('nombreCompleto').invalid } ">
+        <div class="invalid-feedback" *ngIf="forma.controls['nombreCompleto'].errors?.required" class="invalid-feedback">
+            El nombre es necesario.
+        </div>
+    </div>
+
+    <div class="form-group row col-10">
+        <label>Cédula: </label>
+        <input [attr.disabled]="isEditionEnabled ? null: ''" [textMask]="{mask: ciMask}" class="form-control" type="text" placeholder="Cedula" formControlName="cedula" [ngClass]=" { 'is-invalid': forma.get('cedula').invalid && !forma.get('cedula').pristine } ">
+        <div class="invalid-feedback" *ngIf="forma.controls['cedula'].errors?.required" class="invalid-feedback">
+            La cédula es necesaria.
+        </div>
+        <div class="invalid-feedback" *ngIf="!forma.controls['cedula'].errors?.ciLengthValidation" class="invalid-feedback">
+            La cédula debe contener 8 caracteres.
+        </div>
+        <div class="invalid-feedback" *ngIf="!forma.controls['cedula'].errors?.isCiValid && forma.controls['cedula'].errors?.ciLengthValidation" class="invalid-feedback">
+            La cédula ingresada no es valida.
+        </div>
+    </div>
+
+    <div class="form-group row col-10">
+        <label>Teléfono: </label>
+        <input [attr.disabled]="isEditionEnabled ? null: ''" class="form-control" type="text" placeholder="Telefono" formControlName="telefono" [ngClass]=" { 'is-invalid': forma.get('telefono').invalid } ">
+        <div class="invalid-feedback" *ngIf="forma.controls['telefono'].errors?.required" class="invalid-feedback">
+            El teléfono es necesario.
+        </div>
+    </div>
+
+    <div class="form-group row col-10">
+        <label>Dirección: </label>
+        <input [attr.disabled]="isEditionEnabled ? null: ''" class="form-control" type="text" placeholder="Dirección" formControlName="direccion" [ngClass]=" { 'is-invalid': forma.get('direccion').invalid } ">
+        <div class="invalid-feedback" *ngIf="forma.controls['direccion'].errors?.required" class="invalid-feedback">
+            La dirección es necesaria.
+        </div>
+    </div>
+
+    <div class="form-group row col-10">
+        <label>Fecha Nacimiento: </label>
+        <input [attr.disabled]="isEditionEnabled ? null: ''" class="form-control" type="text" placeholder="Fecha Nacimiento" formControlName="fechaNacimiento" [ngClass]=" { 'is-invalid': forma.get('fechaNacimiento').invalid } ">
+        <div class="invalid-feedback" *ngIf="forma.controls['fechaNacimiento'].errors?.required" class="invalid-feedback">
+            La fecha de nacimiento es necesaria.
+        </div>
+    </div>
+
+</form>
+
+<div class=" form-group row">
+    <div class="input-group col-md-10 ">
+        <button type="button " class="btn btn-outline-primary mr-1" *ngIf="!isForModal" (click)="toggleEdition()"> 
+            <i class="fas fa-edit"></i> Edit
+        </button>
+        <button type="button " class="btn btn-outline-success " [disabled]="forma.invalid" (click)="saveChanges()"> 
+            <!-- [disabled]="forma.invalid " -->
+            <i class="fas fa-save"></i> Guardar
+        </button>
+    </div>
+</div>
+<br>
+<br>
+<hr>
+<div *ngIf="!isForModal">
+    <h1>Servicios</h1>
+    <mat-table *ngIf="clientServicesData.length > 0" mat-table [dataSource]="clientServicesData" matSort (matSortChange)="sortData($event)" class="mat-elevation-z1">
+
+        <!-- <ng-container matColumnDef="nombre">
+            <mat-header-cell class="font-weight-bold" mat-header-cell *matHeaderCellDef mat-sort-header> Servicio</mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let row"> {{row.nombre}} </mat-cell>
+        </ng-container> -->
+
+        <ng-container matColumnDef="serviceName">
+            <mat-header-cell mat-header-cell *matHeaderCellDef mat-sort-header> Servicio </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let row"> {{row.serviceName}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="cuotaMensual">
+            <mat-header-cell mat-header-cell *matHeaderCellDef mat-sort-header> Cuota Mensual </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let row"> {{row.cuota | currency}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="fechaAsociado">
+            <mat-header-cell mat-header-cell *matHeaderCellDef mat-sort-header> Fecha Asociado </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let row"> {{row.fechaAsociado}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="tools">
+            <mat-header-cell mat-header-cell *matHeaderCellDef></mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let row; let i = index">
+                <button class="btn btn-outline-danger" (click)="deleteServiceForUser(row, i)"><i class="fa fa-trash-alt"></i></button>
+            </mat-cell>
+        </ng-container>
+
+        <mat-header-row mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+    <mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="loadPage($event)" class="mat-elevation-z1"></mat-paginator>
+</div>

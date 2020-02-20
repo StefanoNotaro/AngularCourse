@@ -4,6 +4,7 @@ import { DataBaseService } from '../../services/data-base.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Cliente } from '../models/cliente.model';
 import { Router } from '@angular/router';
+import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-clients',
@@ -12,10 +13,14 @@ import { Router } from '@angular/router';
 })
 export class ClientsComponent implements OnInit {
 
+  openModal = false;
+
   length: number;
   pageSize = 10;
   pageSizeOptions: number[] = [5, 10, 25, 100];
   actualPage = 0;
+
+  selectedClient: Cliente;
 
   displayCheckBox = false;
 
@@ -24,7 +29,9 @@ export class ClientsComponent implements OnInit {
   allClients: Cliente[] = [];
   selection = new SelectionModel<Cliente>(true, []);
 
-    constructor(private _databaseService: DataBaseService, private _router: Router) {
+  closeResult: string;
+
+    constructor(private _databaseService: DataBaseService, private _router: Router, private modalService: NgbModal) {
       _databaseService.getClients().subscribe(x => {
         this.clients = x.slice(0, this.pageSize);
         this.length = x.length;
@@ -100,6 +107,36 @@ export class ClientsComponent implements OnInit {
       this.clients = this.allClients.slice(start, start + this.pageSize);
       this.length = this.length - 1;
     });
+  }
+
+  edit(client: Cliente) {
+    this.selectedClient = client;
+    console.log(this.selectedClient);
+    this.openModal = !this.openModal;
+  }
+
+  open(content, client: Cliente) {
+
+    this.selectedClient = client;
+    this.openModal = !this.openModal;
+
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+      console.log('object');
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      console.log(this.closeResult);
+    });
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return  `with: ${reason}`;
+    }
   }
 
 }

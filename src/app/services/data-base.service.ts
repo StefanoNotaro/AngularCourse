@@ -21,8 +21,8 @@ export class DataBaseService {
     return this._httpClient.get<Cliente>(`${this.baseUrl}/cliente/${clientId}`);
   }
 
-  updateClient(client: Cliente, clientId: number) {
-    return this._httpClient.put(`${this.baseUrl}/cliente/${ clientId }`, client);
+  updateClient(client: Cliente) {
+    return this._httpClient.put(`${this.baseUrl}/cliente/${ client.id }`, client);
   }
 
   deleteClient(client: Cliente) {
@@ -37,8 +37,8 @@ export class DataBaseService {
     return this._httpClient.get<Servicio[]>(`${this.baseUrl}/servicios`);
   }
 
-  updateService(service: Servicio, serviceId: number) {
-    return this._httpClient.put(`${this.baseUrl}/servicios/${ serviceId }`, service);
+  updateService(service: Servicio) {
+    return this._httpClient.put(`${this.baseUrl}/servicios/${ service.id }`, service);
   }
 
   deleteService(service: Servicio) {
@@ -51,5 +51,17 @@ export class DataBaseService {
 
   getServicesForClients() {
     return this._httpClient.get<ClienteServicio[]>(`${this.baseUrl}/clienteServicio`);
+  }
+
+  updateServicesForClients(clienteServicio: ClienteServicio) {
+    return this._httpClient.put(`${this.baseUrl}/clienteServicio/${ clienteServicio.id }`, clienteServicio);
+  }
+
+  deleteServicesForClients(clienteServicio: ClienteServicio) {
+    return this._httpClient.delete(`${ this.baseUrl }/clienteServicio/${ clienteServicio.id }`);
+  }
+
+  postNewServicesForClients(clienteServicio: ClienteServicio) {
+    return this._httpClient.post(`${this.baseUrl}/clienteServicio`, clienteServicio);
   }
 }

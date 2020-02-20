@@ -1,4 +1,5 @@
 export class ClienteServicio {
+  id: number;
   clienteId: number;
   servicioId: number;
   fechaAsociado: string;

@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http'; // Http client import
 import { MaterialsModule } from './materials.module';
+import {TextMaskModule} from 'angular2-text-mask';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 // Routes
 import { AppRoutingModule } from './app-routing.module';
@@ -33,7 +35,9 @@ import { ClientComponent } from './components/client/client.component';
     AppRoutingModule,
     RouterModule,
     BrowserAnimationsModule,
-    MaterialsModule
+    MaterialsModule,
+    TextMaskModule,
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]

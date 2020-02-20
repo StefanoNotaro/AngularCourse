@@ -1,12 +1,12 @@
 {
   "cliente": [
     {
-      "id": 1,
       "nombreCompleto": "Pablo Acosta",
+      "fechaNacimiento": "1993-02-25T18:25:43.511Z",
       "cedula": "66913574",
-      "direccion": "Bulevar Artigas 1261",
       "telefono": "22085421",
-      "fechaNacimiento": "1993-02-25T18:25:43.511Z"
+      "direccion": "Bulevar Artigas 1261",
+      "id": 1
     },
     {
       "id": 2,
@@ -33,44 +33,36 @@
       "fechaNacimiento": "1990-10-30T18:25:43.511Z"
     },
     {
-      "id": 8,
       "nombreCompleto": "8.Stefano Notaro",
+      "fechaNacimiento": "1990-10-30T18:25:43.511Z",
       "cedula": "45846297",
-      "direccion": "Algun Lugar de Narnia",
       "telefono": "097478640",
-      "fechaNacimiento": "1990-10-30T18:25:43.511Z"
+      "direccion": "Algun Lugar de Narnia",
+      "id": 8
     },
     {
-      "id": 9,
       "nombreCompleto": "9.Stefano Notaro",
+      "fechaNacimiento": "1990-10-30T18:25:43.511Z",
       "cedula": "45846297",
-      "direccion": "Algun Lugar de Narnia",
       "telefono": "097478640",
-      "fechaNacimiento": "1990-10-30T18:25:43.511Z"
+      "direccion": "Algun Lugar de Narnia",
+      "id": 9
     },
     {
-      "id": 10,
       "nombreCompleto": "10.Stefano Notaro",
+      "fechaNacimiento": "1990-10-30T18:25:43.511Z",
       "cedula": "45846297",
-      "direccion": "Algun Lugar de Narnia",
       "telefono": "097478640",
-      "fechaNacimiento": "1990-10-30T18:25:43.511Z"
+      "direccion": "Algun Lugar de Narnia",
+      "id": 10
     },
     {
-      "id": 11,
-      "nombreCompleto": "11.Stefano Notaro",
-      "cedula": "45846297",
-      "direccion": "Algun Lugar de Narnia",
-      "telefono": "097478640",
-      "fechaNacimiento": "1990-10-30T18:25:43.511Z"
-    },
-    {
-      "id": 13,
       "nombreCompleto": "13.Stefano Notaro",
+      "fechaNacimiento": "1990-10-30T18:25:43.511Z",
       "cedula": "45846297",
-      "direccion": "Algun Lugar de Narnia",
       "telefono": "097478640",
-      "fechaNacimiento": "1990-10-30T18:25:43.511Z"
+      "direccion": "Algun Lugar de Narnia123123",
+      "id": 13
     }
   ],
   "servicios": [
@@ -92,8 +84,33 @@
   ],
   "clienteServicio": [
     {
+      "id": 0,
       "clienteId": 0,
       "servicioId": 0,
+      "fechaAsociado": "2019-10-30T18:25:43.511Z"
+    },
+    {
+      "id": 1,
+      "clienteId": 1,
+      "servicioId": 1,
+      "fechaAsociado": "2019-10-30T18:25:43.511Z"
+    },
+    {
+      "id": 2,
+      "clienteId": 1,
+      "servicioId": 1,
+      "fechaAsociado": "2019-10-30T18:25:43.511Z"
+    },
+    {
+      "id": 3,
+      "clienteId": 9,
+      "servicioId": 1,
+      "fechaAsociado": "2019-10-30T18:25:43.511Z"
+    },
+    {
+      "id": 4,
+      "clienteId": 1,
+      "servicioId": 2,
       "fechaAsociado": "2019-10-30T18:25:43.511Z"
     }
   ]
