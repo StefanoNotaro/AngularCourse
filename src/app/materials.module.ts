@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatTableModule, MatSortModule, MatCheckboxModule } from '@angular/material';
+import { MatTableModule, MatSortModule, MatCheckboxModule, MatPaginatorModule } from '@angular/material';
 
 
 
@@ -9,13 +9,15 @@ import { MatTableModule, MatSortModule, MatCheckboxModule } from '@angular/mater
   exports: [
     MatTableModule,
     MatSortModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatPaginatorModule
   ],
   imports: [
     CommonModule,
     MatTableModule,
     MatSortModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatPaginatorModule
   ]
 })
 export class MaterialsModule { }

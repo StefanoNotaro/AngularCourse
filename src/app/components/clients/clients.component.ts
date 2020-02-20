@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild} from '@angular/core';
 import { MatSort, Sort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
 import { DataBaseService } from '../../services/data-base.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Cliente } from '../models/cliente.model';
@@ -12,29 +11,49 @@ import { Cliente } from '../models/cliente.model';
 })
 export class ClientsComponent implements OnInit {
 
-  constructor(private _databaseService: DataBaseService) {
-    _databaseService.getClients().subscribe(x => {
-      this.clients = x;
-    });
-  }
+  length: number;
+  pageSize = 10;
+  pageSizeOptions: number[] = [5, 10, 25, 100];
+  actualPage = 0;
 
-  displayedColumns: string[] = ['select', 'nombreCompleto', 'cedula', 'tools'];
-  // clients = new MatTableDataSource<Cliente>();
+  displayCheckBox = false;
+
+  displayedColumns: string[] = ['nombreCompleto', 'cedula', 'tools'];
   clients: Cliente[] = [];
+  allClients: Cliente[] = [];
   selection = new SelectionModel<Cliente>(true, []);
 
-  @ViewChild(MatSort, {static: true}) sort: MatSort;
+    constructor(private _databaseService: DataBaseService) {
+      _databaseService.getClients().subscribe(x => {
+        this.clients = x.slice(0, this.pageSize);
+        this.length = x.length;
+        this.allClients = x;
+      });
+      if (this.displayCheckBox) {
+        this.displayedColumns.unshift('select');
+      }
+    }
 
   ngOnInit() {
-    // this.clients.sort = this.sort;
+  }
+
+  loadPage(event) {
+    const start = this.pageSize * event.pageIndex;
+    this.clients = this.allClients.slice(start, start + event.pageSize);
+    this.pageSize = event.pageSize;
+    this.actualPage = event.pageIndex;
+  }
+
+  setPageSizeOptions(setPageSizeOptionsInput: string) {
+    if (setPageSizeOptionsInput) {
+      this.pageSizeOptions = setPageSizeOptionsInput.split(',').map(str => +str);
+    }
   }
 
   sortData(sort: Sort) {
-    console.log(sort);
     const data = this.clients.slice();
     if (!sort.active || sort.direction === '') {
-      this.clients = data;
-      return;
+      sort.active = 'id';
     }
 
     this.clients = data.sort((a, b) => {
@@ -42,6 +61,7 @@ export class ClientsComponent implements OnInit {
       switch (sort.active) {
         case 'nombreCompleto': return compare(a.nombreCompleto, b.nombreCompleto, isAsc);
         case 'cedula': return compare(a.cedula, b.cedula, isAsc);
+        case 'id': return compare(a.id, b.id, true);
         default: return 0;
       }
     });
@@ -70,12 +90,19 @@ export class ClientsComponent implements OnInit {
     console.log(client);
   }
 
-  deleteClient(client) {
-    const tmp = this._databaseService.deleteClient(client).subscribe(x => {
-      this._databaseService.getClients().subscribe(y => {
-        this.clients = y;
-      });
+  deleteClient(client: Cliente, index: number) {
+    index = this.actualPage * this.pageSize + index;
+    this._databaseService.deleteClient(client).subscribe(x => {
+      this.allClients.splice(index, 1);
+      const start = this.pageSize * this.actualPage;
+      this.clients = this.allClients.slice(start, start + this.pageSize);
+      this.length = this.length - 1;
     });
+  }
+
+  applyFilter(column, event) {
+    console.log(column);
+    console.log(event);
   }
 
 }

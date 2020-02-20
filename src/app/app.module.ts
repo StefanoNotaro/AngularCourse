@@ -13,13 +13,15 @@ import { NavbarComponent } from './components/shared/navbar/navbar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ClientsComponent } from './components/clients/clients.component';
 import { ServicesComponent } from './components/services/services.component';
+import { CiFormatPipe } from './pipes/ci-format.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     ClientsComponent,
-    ServicesComponent
+    ServicesComponent,
+    CiFormatPipe
   ],
   imports: [
     BrowserModule,
