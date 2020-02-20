@@ -1,4 +1,5 @@
 <mat-table mat-table [dataSource]="clients" matSort (matSortChange)="sortData($event)" class="mat-elevation-z1">
+    <mat-toolbar>My App</mat-toolbar>
 
     <ng-container *ngIf="displayCheckBox" matColumnDef="select">
         <mat-header-cell mat-header-cell *matHeaderCellDef>

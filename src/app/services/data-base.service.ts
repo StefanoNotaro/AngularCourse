@@ -17,6 +17,10 @@ export class DataBaseService {
     return this._httpClient.get<Cliente[]>(`${this.baseUrl}/cliente`);
   }
 
+  getClientById(clientId: number | string) {
+    return this._httpClient.get<Cliente>(`${this.baseUrl}/cliente/${clientId}`);
+  }
+
   updateClient(client: Cliente, clientId: number) {
     return this._httpClient.put(`${this.baseUrl}/cliente/${ clientId }`, client);
   }

@@ -3,6 +3,7 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { DataBaseService } from '../../services/data-base.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Cliente } from '../models/cliente.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-clients',
@@ -23,7 +24,7 @@ export class ClientsComponent implements OnInit {
   allClients: Cliente[] = [];
   selection = new SelectionModel<Cliente>(true, []);
 
-    constructor(private _databaseService: DataBaseService) {
+    constructor(private _databaseService: DataBaseService, private _router: Router) {
       _databaseService.getClients().subscribe(x => {
         this.clients = x.slice(0, this.pageSize);
         this.length = x.length;
@@ -88,6 +89,7 @@ export class ClientsComponent implements OnInit {
 
   clientInfo(client) {
     console.log(client);
+    this._router.navigate(['/cliente', client.id]);
   }
 
   deleteClient(client: Cliente, index: number) {
@@ -98,11 +100,6 @@ export class ClientsComponent implements OnInit {
       this.clients = this.allClients.slice(start, start + this.pageSize);
       this.length = this.length - 1;
     });
-  }
-
-  applyFilter(column, event) {
-    console.log(column);
-    console.log(event);
   }
 
 }

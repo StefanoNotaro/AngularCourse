@@ -14,6 +14,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ClientsComponent } from './components/clients/clients.component';
 import { ServicesComponent } from './components/services/services.component';
 import { CiFormatPipe } from './pipes/ci-format.pipe';
+import { ClientComponent } from './components/client/client.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { CiFormatPipe } from './pipes/ci-format.pipe';
     NavbarComponent,
     ClientsComponent,
     ServicesComponent,
-    CiFormatPipe
+    CiFormatPipe,
+    ClientComponent
   ],
   imports: [
     BrowserModule,
