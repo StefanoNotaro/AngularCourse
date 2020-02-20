@@ -165,17 +165,18 @@ export class ClientComponent implements OnInit {
   }
 
   sortData(sort: Sort) {
-    const data = this.clientServices.slice();
+    const data = this.clientServicesData.slice();
     if (!sort.active || sort.direction === '') {
       sort.active = 'id';
     }
 
-    this.clientServices = data.sort((a, b) => {
+    this.clientServicesData = data.sort((a, b) => {
       const isAsc = sort.direction === 'asc';
       switch (sort.active) {
-        case 'nombre': return compare(a.nombre, b.nombre, isAsc);
-        case 'cuotaMensual': return compare(a.cuotaMensual, b.cuotaMensual, isAsc);
-        case 'id': return compare(a.id, b.id, true);
+        case 'nombre': return compare(a.serviceName, b.serviceName, isAsc);
+        case 'cuota': return compare(a.cuota, b.cuota, isAsc);
+        case 'fechaAsociado': return compare(a.fechaAsociado, b.fechaAsociado, isAsc);
+        case 'id': return compare(a.clienteServicioId, b.clienteServicioId, true);
         default: return 0;
       }
     });
