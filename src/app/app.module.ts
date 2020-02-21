@@ -17,6 +17,7 @@ import { ClientsComponent } from './components/clients/clients.component';
 import { ServicesComponent } from './components/services/services.component';
 import { CiFormatPipe } from './pipes/ci-format.pipe';
 import { ClientComponent } from './components/client/client.component';
+import { NotificationComponent } from './components/notification/notification.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { ClientComponent } from './components/client/client.component';
     ClientsComponent,
     ServicesComponent,
     CiFormatPipe,
-    ClientComponent
+    ClientComponent,
+    NotificationComponent
   ],
   imports: [
     BrowserModule,

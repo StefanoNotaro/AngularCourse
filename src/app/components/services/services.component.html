@@ -1,15 +1,5 @@
+<button class="btn btn-outline-secondary" (click)="newService(newServiceModal)"><i class="fa fa-plus-circle" aria-hidden="true"> Agregar Servicio</i></button>
 <mat-table mat-table [dataSource]="services" matSort (matSortChange)="sortData($event)" class="mat-elevation-z1">
-
-    <ng-container *ngIf="displayCheckBox" matColumnDef="select">
-        <mat-header-cell mat-header-cell *matHeaderCellDef>
-            <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
-            </mat-checkbox>
-        </mat-header-cell>
-        <mat-cell mat-cell *matCellDef="let row">
-            <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
-            </mat-checkbox>
-        </mat-cell>
-    </ng-container>
 
     <ng-container matColumnDef="nombre">
         <mat-header-cell mat-header-cell *matHeaderCellDef mat-sort-header> Servicio </mat-header-cell>
@@ -17,15 +7,14 @@
     </ng-container>
 
     <ng-container matColumnDef="cuotaMensual">
-        <mat-header-cell mat-header-cell *matHeaderCellDef mat-sort-header> Cédula </mat-header-cell>
-        <mat-cell mat-cell *matCellDef="let service"> {{service.cuotaMensual | number}} </mat-cell>
+        <mat-header-cell mat-header-cell *matHeaderCellDef mat-sort-header> Cuota </mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let service"> {{service.cuotaMensual | currency}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="tools">
         <mat-header-cell mat-header-cell *matHeaderCellDef></mat-header-cell>
         <mat-cell mat-cell *matCellDef="let row; let i = index">
-            <button class="btn btn-outline-success mr-1" (click)="serviceInfo(row)"><i class="fas fa-info-circle"></i></button>
-            <button class="btn btn-outline-primary mr-1"><i class="fas fa-user-edit"></i></button>
+            <button class="btn btn-outline-primary mr-1" (click)="editService(row, newServiceModal, i)"><i class="fas fa-user-edit"></i></button>
             <button class="btn btn-outline-danger" (click)="deleteService(row, i)"><i class="fa fa-trash-alt"></i></button>
         </mat-cell>
     </ng-container>
@@ -34,3 +23,40 @@
     <mat-row mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
 </mat-table>
 <mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="loadPage($event)" class="mat-elevation-z1"></mat-paginator>
+
+<ng-template #newServiceModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">Nuevo Servicio</h4>
+    </div>
+    <form [formGroup]="forma">
+        <div class="modal-body">
+            <div class="form-group row col-sm-12">
+                <label>
+                <i class="far fa-question-circle" data-toggle="tooltip" title="El nombre es necesario"></i>
+                Nombre del Servicio:
+            </label>
+                <input class="form-control" type="text" placeholder="Nombre del servicio" formControlName="nombre" [ngClass]=" { 'is-invalid': forma.get('nombre').invalid  && !forma.get('nombre').pristine } ">
+                <div class="invalid-feedback" *ngIf="forma.controls['nombre'].errors?.required" class="invalid-feedback">
+                    El nombre es necesario.
+                </div>
+            </div>
+
+            <div class="form-group row col-sm-12">
+                <label>
+                <i class="far fa-question-circle" data-toggle="tooltip" title="La cuota es necesaria&#013;Sólo números son validos"></i>
+                Cuota:
+            </label>
+                <input class="form-control" [value]="forma.controls.cuota?.value" type="text" placeholder="Nombre del servicio" formControlName="cuota" [ngClass]=" { 'is-invalid': forma.get('cuota').invalid  && !forma.get('cuota').pristine } ">
+                <div class="invalid-feedback" *ngIf="forma.controls['cuota'].errors?.required" class="invalid-feedback">
+                    La cuota es necesaria.
+                </div>
+                <div class="invalid-feedback" *ngIf="forma.controls['cuota'].errors?.pattern" class="invalid-feedback">
+                    Ingrese solo números.
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" [disabled]="forma.invalid" (click)="modal.close(forma.controls)">Save</button>
+    </div>
+</ng-template>

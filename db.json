@@ -65,28 +65,12 @@
       "id": 13
     },
     {
-      "nombreCompleto": "123",
-      "cedula": "11111111",
-      "direccion": "123",
-      "telefono": "123",
-      "fechaNacimiento": "123",
+      "nombreCompleto": "Stefano Notaro",
+      "fechaNacimiento": "19941114",
+      "cedula": "45846297",
+      "telefono": "097478640",
+      "direccion": "Algun Lugar de narnia",
       "id": 14
-    },
-    {
-      "nombreCompleto": "123",
-      "cedula": "23123128",
-      "direccion": "231",
-      "telefono": "213123",
-      "fechaNacimiento": "123",
-      "id": 15
-    },
-    {
-      "nombreCompleto": "111",
-      "cedula": "11111111",
-      "direccion": "1",
-      "telefono": "11",
-      "fechaNacimiento": "1",
-      "id": 16
     }
   ],
   "servicios": [
@@ -104,21 +88,29 @@
       "id": 3,
       "nombre": "Seguro De vida",
       "cuotaMensual": 50
+    },
+    {
+      "nombre": "Stefano Services",
+      "cuotaMensual": 500,
+      "id": 4
+    },
+    {
+      "nombre": "Stefano 3",
+      "cuotaMensual": 9000,
+      "id": 6
+    },
+    {
+      "nombre": "Otro",
+      "cuotaMensual": 11,
+      "id": 7
+    },
+    {
+      "nombre": "Otro212",
+      "cuotaMensual": 11123,
+      "id": 8
     }
   ],
   "clienteServicio": [
-    {
-      "id": 1,
-      "clienteId": 1,
-      "servicioId": 1,
-      "fechaAsociado": "2019-10-30T18:25:43.511Z"
-    },
-    {
-      "id": 2,
-      "clienteId": 1,
-      "servicioId": 1,
-      "fechaAsociado": "2019-10-30T18:25:43.511Z"
-    },
     {
       "id": 3,
       "clienteId": 9,
@@ -126,10 +118,34 @@
       "fechaAsociado": "2019-10-30T18:25:43.511Z"
     },
     {
-      "id": 4,
-      "clienteId": 1,
+      "clienteId": 14,
+      "servicioId": 1,
+      "fechaAsociado": "Fri Feb 21 2020 09:48:18 GMT-0300 (Uruguay Standard Time)",
+      "id": 6
+    },
+    {
+      "clienteId": 14,
+      "servicioId": 3,
+      "fechaAsociado": "Fri Feb 21 2020 09:48:25 GMT-0300 (Uruguay Standard Time)",
+      "id": 7
+    },
+    {
+      "clienteId": 13,
+      "servicioId": 1,
+      "fechaAsociado": "Fri Feb 21 2020 12:54:13 GMT-0300 (Uruguay Standard Time)",
+      "id": 8
+    },
+    {
+      "clienteId": 14,
+      "servicioId": 8,
+      "fechaAsociado": "Fri Feb 21 2020 14:55:19 GMT-0300 (Uruguay Standard Time)",
+      "id": 10
+    },
+    {
+      "clienteId": 13,
       "servicioId": 2,
-      "fechaAsociado": "2019-10-30T18:25:43.511Z"
+      "fechaAsociado": "Fri Feb 21 2020 17:19:10 GMT-0300 (Uruguay Standard Time)",
+      "id": 11
     }
   ]
 }

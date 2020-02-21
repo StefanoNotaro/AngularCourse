@@ -2,17 +2,6 @@
 <mat-table mat-table [dataSource]="clients" matSort (matSortChange)="sortData($event)" class="mat-elevation-z1">
     <mat-toolbar>My App</mat-toolbar>
 
-    <ng-container *ngIf="displayCheckBox" matColumnDef="select">
-        <mat-header-cell mat-header-cell *matHeaderCellDef>
-            <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
-            </mat-checkbox>
-        </mat-header-cell>
-        <mat-cell mat-cell *matCellDef="let row">
-            <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
-            </mat-checkbox>
-        </mat-cell>
-    </ng-container>
-
     <ng-container matColumnDef="nombreCompleto">
         <mat-header-cell class="font-weight-bold" mat-header-cell *matHeaderCellDef mat-sort-header> Nombre Completo</mat-header-cell>
         <mat-cell mat-cell *matCellDef="let client"> {{client.nombreCompleto}} </mat-cell>
@@ -27,7 +16,7 @@
         <mat-header-cell mat-header-cell *matHeaderCellDef></mat-header-cell>
         <mat-cell mat-cell *matCellDef="let row; let i = index">
             <button class="btn btn-outline-success mr-1" (click)="clientInfo(row)"><i class="fas fa-info-circle"></i></button>
-            <button class="btn btn-outline-primary mr-1" (click)="open(content, row, i)"><i class="fas fa-user-edit"></i></button>
+            <button class="btn btn-outline-primary mr-1" (click)="editClient(ediClientModal, row, i)"><i class="fas fa-user-edit"></i></button>
             <button class="btn btn-outline-danger" (click)="deleteClient(row, i)"><i class="fa fa-trash-alt"></i></button>
         </mat-cell>
     </ng-container>
@@ -40,9 +29,9 @@
 <div *ngIf="1 === 0">
     <app-client [isForModal]="true" [client]="selectedClient"></app-client>
 </div>
-<ng-template #content let-modal>
+<ng-template #ediClientModal let-modal>
     <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">Modal Title</h4>
+        <h4 class="modal-title" id="modal-basic-title">Editando a: <small>{{selectedClient.nombreCompleto}}</small></h4>
     </div>
     <div class="container">
         <app-client [isForModal]="true" [client]="selectedClient" (guardado)="guardado($event)"></app-client>
@@ -56,10 +45,13 @@
     <div class="modal-header">
         <h4 class="modal-title">Nuevo Cliente</h4>
     </div>
-    <div class="container">
+    <div class="modal-body">
         <app-client [isForModal]="true" (guardado)="guardado($event)"></app-client>
     </div>
     <!-- <div class="modal-footer">
         <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
     </div> -->
 </ng-template>
+
+<!-- <app-notification *ngIf="showNotification" [action]="deleteClientFromDataBase" [icon]="icon" (response)="handleNotificationResponse($event)" [showCancelButton]="showCancelButton" [title]="notificationTitle"></app-notification> -->
+<app-notification *ngIf="showNotification" [icon]="icon" [id]="clientToDelete.id" (test)="deleteClientFromDataBase($event)" [showCancelButton]="showCancelButton" [title]="notificationTitle"></app-notification>

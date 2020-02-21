@@ -1,15 +1,21 @@
 <form [formGroup]="forma">
 
     <div class="form-group row col-sm-12">
-        <label>Nombre Completo: </label>
-        <input [attr.disabled]="isEditionEnabled ? null: ''" class="form-control" type="text" placeholder="Nombre de usuario" formControlName="nombreCompleto" [ngClass]=" { 'is-invalid': forma.get('nombreCompleto').invalid } ">
+        <label>
+            <i class="far fa-question-circle" data-toggle="tooltip" title="El nombre es necesario"></i>
+            Nombre Completo:
+        </label>
+        <input [attr.disabled]="isEditionEnabled ? null: ''" class="form-control" type="text" placeholder="Nombre de usuario" formControlName="nombreCompleto" [ngClass]=" { 'is-invalid': forma.get('nombreCompleto').invalid  && !forma.get('nombreCompleto').pristine } ">
         <div class="invalid-feedback" *ngIf="forma.controls['nombreCompleto'].errors?.required" class="invalid-feedback">
             El nombre es necesario.
         </div>
     </div>
 
     <div class="form-group row col-sm-12">
-        <label>Cédula: </label>
+        <label>
+            <i class="far fa-question-circle" data-toggle="tooltip" title="La cédula es necesaria &#013;Debe contener 8 caracteres"></i>
+            Cédula:
+        </label>
         <input [attr.disabled]="isEditionEnabled ? null: ''" [textMask]="{mask: ciMask}" class="form-control" type="text" placeholder="Cedula" formControlName="cedula" [ngClass]=" { 'is-invalid': forma.get('cedula').invalid && !forma.get('cedula').pristine } ">
         <div class="invalid-feedback" *ngIf="forma.controls['cedula'].errors?.required" class="invalid-feedback">
             La cédula es necesaria.
@@ -23,26 +29,44 @@
     </div>
 
     <div class="form-group row col-sm-12">
-        <label>Teléfono: </label>
-        <input [attr.disabled]="isEditionEnabled ? null: ''" patterns="customPatterns" mask="000 000 000" class="form-control" type="text" placeholder="Telefono" formControlName="telefono" [ngClass]=" { 'is-invalid': forma.get('telefono').invalid } ">
+        <label>
+            <i class="far fa-question-circle" data-toggle="tooltip" title="El teléfono es necesario&#013;Sólo números son validos"></i>
+            Teléfono: 
+        </label>
+        <input [attr.disabled]="isEditionEnabled ? null: ''" class="form-control" type="text" placeholder="Teléfono" formControlName="telefono" [ngClass]=" { 'is-invalid': forma.get('telefono').invalid && !forma.get('telefono').pristine } ">
         <div class="invalid-feedback" *ngIf="forma.controls['telefono'].errors?.required" class="invalid-feedback">
             El teléfono es necesario.
+        </div>
+        <div class="invalid-feedback" *ngIf="forma.controls['telefono'].errors?.pattern" class="invalid-feedback">
+            Ingrese solo números.
         </div>
     </div>
 
     <div class="form-group row col-sm-12">
-        <label>Dirección: </label>
-        <input [attr.disabled]="isEditionEnabled ? null: ''" class="form-control" type="text" placeholder="Dirección" formControlName="direccion" [ngClass]=" { 'is-invalid': forma.get('direccion').invalid } ">
+        <label>
+            <i class="far fa-question-circle" data-toggle="tooltip" title="La dirección es necesaria"></i>
+            Dirección:
+        </label>
+        <input [attr.disabled]="isEditionEnabled ? null: ''" class="form-control" type="text" placeholder="Dirección" formControlName="direccion" [ngClass]=" { 'is-invalid': forma.get('direccion').invalid && !forma.get('direccion').pristine }">
         <div class="invalid-feedback" *ngIf="forma.controls['direccion'].errors?.required" class="invalid-feedback">
             La dirección es necesaria.
         </div>
     </div>
 
     <div class="form-group row col-sm-12">
-        <label>Fecha Nacimiento: </label>
-        <input [attr.disabled]="isEditionEnabled ? null: ''" class="form-control" type="text" placeholder="Fecha Nacimiento" formControlName="fechaNacimiento" [ngClass]=" { 'is-invalid': forma.get('fechaNacimiento').invalid } ">
+        <label>
+            <i class="far fa-question-circle" data-toggle="tooltip" title="La fecha de nacimiento es necesaria"></i>
+            Fecha Nacimiento:
+        </label>
+        <input [attr.disabled]="isEditionEnabled ? null: ''" [textMask]="{mask: dateMask}" class="form-control" type="text" placeholder="yyyy/mm/dd" formControlName="fechaNacimiento" [ngClass]=" { 'is-invalid': forma.get('fechaNacimiento').invalid && !forma.get('fechaNacimiento').pristine } ">
         <div class="invalid-feedback" *ngIf="forma.controls['fechaNacimiento'].errors?.required" class="invalid-feedback">
             La fecha de nacimiento es necesaria.
+        </div>
+        <div class="invalid-feedback" *ngIf="!forma.controls['fechaNacimiento'].errors?.dateLengthValidation" class="invalid-feedback">
+            El largo de la fecha no es valido. (yyyy/mm/dd)
+        </div>
+        <div class="invalid-feedback" *ngIf="!forma.controls['fechaNacimiento'].errors?.isDateValid && forma.controls['fechaNacimiento'].errors?.dateLengthValidation" class="invalid-feedback">
+            La fecha ingresada es invalida.
         </div>
     </div>
 
@@ -50,9 +74,12 @@
 
 <div class=" form-group row">
     <div class="col-md-12">
-        <button type="button " class="float-right btn btn-outline-success col-md-2" [disabled]="forma.invalid" (click)="saveChanges(forma)"> 
-            <!-- [disabled]="forma.invalid " -->
+        <button type="button " class="float-right btn btn-outline-success col-md-2" [disabled]="forma.invalid" (click)="saveChanges(forma)">
             <i class="fas fa-save"></i> Guardar
+        </button>
+
+        <button type="button " class="float-right btn btn-outline-success col-md-2" (click)="printForma(forma)">
+            <i class="fas fa-save"></i> printForma
         </button>
         <button type="button " class="float-right btn btn-outline-primary mr-1 col-md-1" *ngIf="!isForModal" (click)="toggleEdition()"> 
             <i class="fas fa-edit"></i> Edit
@@ -107,3 +134,8 @@
     </mat-table>
     <!-- <mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="loadPage($event)" class="mat-elevation-z1"></mat-paginator> -->
 </div>
+
+
+
+<!-- <app-notification *ngIf="showNotification" [icon]="icon" (response)="handleNotificationResponse($event)" [showCancelButton]="showCancelButton" [title]="notificationTitle"></app-notification> -->
+<app-notification *ngIf="showNotification" [icon]="icon" (test)="handleNotificationResponse($event)" [showCancelButton]="showCancelButton" [title]="notificationTitle"></app-notification>

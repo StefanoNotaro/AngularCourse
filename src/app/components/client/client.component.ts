@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DataBaseService } from '../../services/data-base.service';
 import { Cliente } from '../models/cliente.model';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
@@ -18,16 +18,21 @@ export class ClientComponent implements OnInit {
 
   forma: FormGroup;
 
+  showNotification = false;
+  notificationTitle = '';
+  icon = 'success';
+  showCancelButton = false;
+
   isEditionEnabled = false;
 
   public customPatterns = { 0: { pattern: new RegExp('\[a-zA-Z\]')} };
 
   @Input() isForModal = false;
   public ciMask = [/\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '-' , /\d/];
-  public dateMask = ['dd/mm/yyyy'];
+  public dateMask = [/\d/, /\d/, /\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/];
 
   @Input() client: Cliente;
-  
+
   @Output() guardado = new EventEmitter<Cliente>();
 
   services: Servicio[] = [];
@@ -41,7 +46,7 @@ export class ClientComponent implements OnInit {
   actualPage = 0;
   selection = new SelectionModel<ClienteServicio>(true, []);
 
-  constructor(public _activatedRoute: ActivatedRoute, private _databaseService: DataBaseService) {
+  constructor(public _activatedRoute: ActivatedRoute, private _databaseService: DataBaseService, private _router: Router) {
     this.forma = new FormGroup({
       nombreCompleto: new FormControl(),
       fechaNacimiento: new FormControl(),
@@ -53,8 +58,8 @@ export class ClientComponent implements OnInit {
 
     this.forma.controls.nombreCompleto.setValidators( [ Validators.required ] );
     this.forma.controls.cedula.setValidators( [ Validators.required, this.ciValidation.bind( this.forma ) ] );
-    this.forma.controls.telefono.setValidators( [ Validators.required ] );
-    this.forma.controls.fechaNacimiento.setValidators( [ Validators.required ] );
+    this.forma.controls.telefono.setValidators( [ Validators.required, Validators.pattern('^[0-9]*$') ] );
+    this.forma.controls.fechaNacimiento.setValidators([Validators.required, this.dateValidation.bind(this.forma)]);
     this.forma.controls.direccion.setValidators( [ Validators.required ] );
   }
 
@@ -75,12 +80,15 @@ export class ClientComponent implements OnInit {
                     );
                   }
                 });
-                this.forma.setValue(this.client);
               });
             });
+            this.forma.setValue(this.client);
           });
         }, err => {
-          console.log('Oops:', err);
+          console.error('Oops:', err);
+          this.notificationTitle = 'El cliente no existe';
+          this.icon = 'error';
+          this.showNotification = true;
         });
       });
     } else {
@@ -114,7 +122,6 @@ export class ClientComponent implements OnInit {
   }
 
   ciValidation( control: FormControl ): { [s: string]: boolean } {
-    const forma: any = this;
     let validDigitVerificator = true;
 
     if (!control.value && control.pristine) {
@@ -135,9 +142,31 @@ export class ClientComponent implements OnInit {
     return null;
   }
 
+  dateValidation( control: FormControl ): { [s: string]: boolean } {
+    let dateIsValid = true;
+
+    if (!control.value && control.pristine) {
+      return null;
+    }
+
+    const dateValue = dateNormalization(control.value);
+
+    dateIsValid = isDateValid(control.value);
+
+    if ( dateValue.length !== 8 || !dateIsValid ) {
+      return {
+        dateLengthValidation: dateValue.length === 8,
+        isDateValid: dateIsValid
+      };
+    }
+
+    return null;
+  }
+
   saveChanges(forma) {
     this.client = this.forma.getRawValue();
     this.client.cedula = ciNormalization(this.client.cedula);
+    this.client.fechaNacimiento = dateNormalization(this.client.fechaNacimiento);
     const client = new Cliente(
       forma.controls.nombreCompleto.value,
       this.client.cedula,
@@ -151,18 +180,34 @@ export class ClientComponent implements OnInit {
         this.guardado.emit(
             client
           );
-          }, err => {
-            console.log('Oops:', err);
-            this.guardado.emit(null);
-          });
+        this.notificationTitle = 'Guardado con exito!';
+        this.showNotification = true;
+        }, err => {
+          console.error('Oops:', err);
+          this.guardado.emit(null);
+          this.notificationTitle = 'Ocurrió un error al actualizar al cliente';
+          this.icon = 'error';
+          this.showNotification = true;
+        });
     } else {
       this._databaseService.postNewClient(client).subscribe(x => {
         this.guardado.emit(x as Cliente);
       }, err => {
-        console.log('Error saving new client:', err);
+        console.error('Error saving new client:', err);
         this.guardado.emit(null);
+
+        this.notificationTitle = 'Ocurrió un error al guardar el cliente';
+        this.icon = 'error';
+        this.showNotification = true;
       });
     }
+  }
+  printForma(forma) {
+    console.log(forma);
+  }
+
+  handleNotificationResponse(response) {
+    this.showNotification = false;
   }
 
   servicioSeleccionado(service, event) {
@@ -171,13 +216,13 @@ export class ClientComponent implements OnInit {
     }
     const clientServiceToAdd = new ClienteServicio(this.client.id, service.id, new Date().toString());
     this._databaseService.postNewServicesForClients(clientServiceToAdd)
-    .subscribe((x: ClienteServicio) => {
-      this.clientServices.push(x);
-      this.clientServicesData.push(
-        new ClientServiceBO(this.client.id, service.serviceId, service.cuotaMensual, service.nombre, clientServiceToAdd.fechaAsociado, x.id)
-      );
-      this.clientServicesData = this.clientServicesData.slice();
-    });
+      .subscribe((x: ClienteServicio) => {
+        this.clientServices.push(x);
+        this.clientServicesData.push(
+          new ClientServiceBO(this.client.id, service.serviceId, service.cuotaMensual, service.nombre, clientServiceToAdd.fechaAsociado, x.id)
+        );
+        this.clientServicesData = this.clientServicesData.slice();
+      });
   }
 
   toggleEdition() {
@@ -225,6 +270,10 @@ function ciNormalization(value: string): string {
 }
 
 function isCiValid(ci: string): boolean {
+  if (!ci) {
+    return false;
+  }
+
   let isValid = true;
   const vectorReferencia = Array.from('2987634');
   const allDigits = Array.from(ci);
@@ -246,6 +295,53 @@ function isCiValid(ci: string): boolean {
   }
 
   return isValid;
+}
+
+function dateNormalization(value: string): string {
+  value = value.split('/').join('');
+  value = value.split('_').join('');
+  return value;
+}
+
+function isDateValid(value: string): boolean {
+  if (!value) {
+    return false;
+  }
+
+  const date = value.split('/');
+
+  if (date.length < 3) {
+    return true;
+  }
+
+  const year = +date[0].split('_').join('');
+  const month = +date[1].split('_').join('');
+  const day = +date[2].split('_').join('');
+
+  if (month < 1 || month > 12) {
+    return false;
+  }
+  if (day < 1 || day > 31) {
+    return false;
+  }
+
+  if (month === 2) {
+    if (isLeap(year)) {
+      return (day <= 29);
+    } else {
+      return (day <= 28);
+    }
+  }
+
+  if (month === 4 || month === 6 || month === 9 || month === 11) {
+    return (day <= 30);
+  }
+
+  return true;
+}
+
+function isLeap(year: number): boolean {
+  return (((year % 4 === 0) && (year % 100 !== 0)) || (year % 400 === 0));
 }
 
 function compare(a: number | string, b: number | string, isAsc: boolean) {

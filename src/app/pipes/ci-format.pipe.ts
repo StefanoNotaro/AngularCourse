@@ -5,7 +5,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class CiFormatPipe implements PipeTransform {
 
-  transform(value: string, ...args: any[]): any {
+  transform(value: string): string {
 
     if (!value) {
       return value;

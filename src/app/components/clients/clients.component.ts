@@ -4,7 +4,7 @@ import { DataBaseService } from '../../services/data-base.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Cliente } from '../models/cliente.model';
 import { Router } from '@angular/router';
-import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-clients',
@@ -15,14 +15,19 @@ export class ClientsComponent implements OnInit {
 
   openModal = false;
 
+  showNotification = false;
+  notificationTitle = '';
+  icon = 'success';
+  showCancelButton = false;
+
   length: number;
   pageSize = 10;
   pageSizeOptions: number[] = [5, 10, 25, 100];
   actualPage = 0;
 
   selectedClient: Cliente;
-
-  displayCheckBox = false;
+  clientToDelete: Cliente;
+  indexTorefresh: number;
 
   displayedColumns: string[] = ['nombreCompleto', 'cedula', 'tools'];
   clients: Cliente[] = [];
@@ -37,9 +42,6 @@ export class ClientsComponent implements OnInit {
       this.length = x.length;
       this.allClients = x;
     });
-    if (this.displayCheckBox) {
-      this.displayedColumns.unshift('select');
-    }
   }
 
   ngOnInit() {
@@ -75,58 +77,56 @@ export class ClientsComponent implements OnInit {
     });
   }
 
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.clients.length;
-    return numSelected === numRows;
-  }
-
-  masterToggle() {
-    this.isAllSelected() ?
-        this.selection.clear() :
-        this.clients.forEach(row => this.selection.select(row));
-  }
-
-  checkboxLabel(row?: Cliente): string {
-    if (!row) {
-      return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
-    }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id + 1}`;
-  }
-
   clientInfo(client) {
     this._router.navigate(['/cliente', client.id]);
   }
 
   deleteClient(client: Cliente, index: number) {
+    this.clientToDelete = client;
+    console.log(this.clientToDelete);
+    this.indexTorefresh = index;
     index = this.actualPage * this.pageSize + index;
-    this._databaseService.deleteClient(client).subscribe(x => {
-      this.allClients.splice(index, 1);
-      const start = this.pageSize * this.actualPage;
-      this.clients = this.allClients.slice(start, start + this.pageSize);
-      this.length = this.length - 1;
-    });
+    this.notificationTitle = `Desea borrar a ${client.nombreCompleto}?`;
+    this.icon = 'warning';
+    this.showCancelButton = true;
+    this.showNotification = true;
+    
+    // this._databaseService.deleteClient(client).subscribe(x => {
+    //   this.allClients.splice(index, 1);
+    //   const start = this.pageSize * this.actualPage;
+    //   this.clients = this.allClients.slice(start, start + this.pageSize);
+    //   this.length = this.length - 1;
+    // });
+  }
+
+  deleteClientFromDataBase(response) {
+    if (response !== -1) {
+      this._databaseService.deleteClient(this.clientToDelete).subscribe(x => {
+        this.allClients.splice(this.indexTorefresh, 1);
+        const start = this.pageSize * this.actualPage;
+        this.clients = this.allClients.slice(start, start + this.pageSize);
+        this.length = this.length - 1;
+      });
+    }
+    this.showNotification = false;
   }
 
   newClient(newClientModal) {
-    // const start = this.pageSize * event.pageIndex;
-    // this.clients = this.allClients.slice(start, start + event.pageSize);
     this.modalService.open(newClientModal, {ariaLabelledBy: 'modal-basic-title', size: 'lg'})
       .result.then((result) => {
         this.closeResult = `Closed with: ${result}`;
       }, (reason) => {
-        console.log(reason);
-        if (reason) {
-          this.clients.push(reason);
-          this.allClients.push(reason);
-          this.clients = this.clients.slice();
+        if (reason && reason !== 1) {
+          this.clients.unshift(reason);
+          this.allClients.unshift(reason);
+          const start = this.pageSize * this.actualPage;
+          this.clients = this.allClients.slice(start, start + this.pageSize);
           this.length += 1;
         }
       });
   }
 
-  open(content, client: Cliente, index: number) {
-
+  editClient(content, client: Cliente, index: number) {
     this.selectedClient = client;
     this.openModal = !this.openModal;
 
@@ -135,6 +135,8 @@ export class ClientsComponent implements OnInit {
       }, (reason) => {
         console.log(typeof reason);
         if (reason instanceof Cliente) {
+          const allClientIndex = this.actualPage * this.pageSize + index;
+          this.allClients[allClientIndex] = {...reason};
           this.clients[index] = {...reason};
           this.clients = this.clients.slice();
         }
