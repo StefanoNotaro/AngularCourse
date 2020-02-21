@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DataBaseService } from '../../services/data-base.service';
 import { Cliente } from '../models/cliente.model';
@@ -20,11 +20,16 @@ export class ClientComponent implements OnInit {
 
   isEditionEnabled = false;
 
+  public customPatterns = { 0: { pattern: new RegExp('\[a-zA-Z\]')} };
+
   @Input() isForModal = false;
   public ciMask = [/\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '-' , /\d/];
   public dateMask = ['dd/mm/yyyy'];
 
   @Input() client: Cliente;
+  
+  @Output() guardado = new EventEmitter<Cliente>();
+
   services: Servicio[] = [];
   clientServices: ClienteServicio[] = [];
   clientServicesData: ClientServiceBO[] = [];
@@ -54,14 +59,10 @@ export class ClientComponent implements OnInit {
   }
 
   ngOnInit() {
-    // console.log(this.isForModal);
-    // console.log(this.client);
-    console.log(this.client);
     if (!this.isForModal) {
       this._activatedRoute.paramMap.subscribe(param => {
         this._databaseService.getClientById(param.get('id')).subscribe(client => {
           this.client = client;
-          console.log(client);
           this._databaseService.getServicesForClients().subscribe(clientService => {
             this.clientServices = clientService.filter(y => y.clienteId === this.client.id);
             this._databaseService.getServices().subscribe(service => {
@@ -83,24 +84,22 @@ export class ClientComponent implements OnInit {
         });
       });
     } else {
-      this._activatedRoute.paramMap.subscribe(param => {
-        this._databaseService.getServicesForClients().subscribe(clientService => {
-          this.clientServices = clientService.filter(y => y.clienteId === this.client.id);
-          this._databaseService.getServices().subscribe(service => {
-            this.services = service;
-            this.clientServices.forEach(x => {
-              this.services.forEach(serv => {
-                if (serv.id === x.servicioId) {
-                  this.clientServicesData.push(
-                    new ClientServiceBO(x.clienteId, serv.id, serv.cuotaMensual, serv.nombre, x.fechaAsociado, x.id)
-                  );
-                }
-              });
+      this._databaseService.getServicesForClients().subscribe(clientService => {
+        this.clientServices = clientService.filter(y => y.clienteId === this.client.id);
+        this._databaseService.getServices().subscribe(service => {
+          this.services = service;
+          this.clientServices.forEach(x => {
+            this.services.forEach(serv => {
+              if (serv.id === x.servicioId) {
+                this.clientServicesData.push(
+                  new ClientServiceBO(x.clienteId, serv.id, serv.cuotaMensual, serv.nombre, x.fechaAsociado, x.id)
+                );
+              }
             });
           });
+          this.forma.setValue(this.client);
         });
       });
-      this.forma.setValue(this.client);
     }
     if (this.isForModal) {
       this.isEditionEnabled = true;
@@ -136,14 +135,48 @@ export class ClientComponent implements OnInit {
     return null;
   }
 
-  saveChanges() {
+  saveChanges(forma) {
     this.client = this.forma.getRawValue();
     this.client.cedula = ciNormalization(this.client.cedula);
-    console.log(this.forma);
-    this._databaseService.updateClient(this.client).subscribe(x => {
-      console.log('Guardad!');
-    }, err => {
-      console.log('Oops:', err);
+    const client = new Cliente(
+      forma.controls.nombreCompleto.value,
+      this.client.cedula,
+      forma.controls.direccion.value,
+      forma.controls.telefono.value,
+      forma.controls.fechaNacimiento.value
+    );
+    if (forma.controls.id.value) {
+      this._databaseService.updateClient(this.client).subscribe(x => {
+        client.id = forma.controls.id.value;
+        this.guardado.emit(
+            client
+          );
+          }, err => {
+            console.log('Oops:', err);
+            this.guardado.emit(null);
+          });
+    } else {
+      this._databaseService.postNewClient(client).subscribe(x => {
+        this.guardado.emit(x as Cliente);
+      }, err => {
+        console.log('Error saving new client:', err);
+        this.guardado.emit(null);
+      });
+    }
+  }
+
+  servicioSeleccionado(service, event) {
+    if (!event.isUserInput) {
+      return;
+    }
+    const clientServiceToAdd = new ClienteServicio(this.client.id, service.id, new Date().toString());
+    this._databaseService.postNewServicesForClients(clientServiceToAdd)
+    .subscribe((x: ClienteServicio) => {
+      this.clientServices.push(x);
+      this.clientServicesData.push(
+        new ClientServiceBO(this.client.id, service.serviceId, service.cuotaMensual, service.nombre, clientServiceToAdd.fechaAsociado, x.id)
+      );
+      this.clientServicesData = this.clientServicesData.slice();
     });
   }
 
@@ -173,8 +206,8 @@ export class ClientComponent implements OnInit {
     this.clientServicesData = data.sort((a, b) => {
       const isAsc = sort.direction === 'asc';
       switch (sort.active) {
-        case 'nombre': return compare(a.serviceName, b.serviceName, isAsc);
-        case 'cuota': return compare(a.cuota, b.cuota, isAsc);
+        case 'serviceName': return compare(a.serviceName, b.serviceName, isAsc);
+        case 'cuotaMensual': return compare(a.cuota, b.cuota, isAsc);
         case 'fechaAsociado': return compare(a.fechaAsociado, b.fechaAsociado, isAsc);
         case 'id': return compare(a.clienteServicioId, b.clienteServicioId, true);
         default: return 0;

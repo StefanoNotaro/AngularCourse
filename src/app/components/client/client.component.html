@@ -1,6 +1,6 @@
 <form [formGroup]="forma">
 
-    <div class="form-group row col-10">
+    <div class="form-group row col-sm-12">
         <label>Nombre Completo: </label>
         <input [attr.disabled]="isEditionEnabled ? null: ''" class="form-control" type="text" placeholder="Nombre de usuario" formControlName="nombreCompleto" [ngClass]=" { 'is-invalid': forma.get('nombreCompleto').invalid } ">
         <div class="invalid-feedback" *ngIf="forma.controls['nombreCompleto'].errors?.required" class="invalid-feedback">
@@ -8,7 +8,7 @@
         </div>
     </div>
 
-    <div class="form-group row col-10">
+    <div class="form-group row col-sm-12">
         <label>Cédula: </label>
         <input [attr.disabled]="isEditionEnabled ? null: ''" [textMask]="{mask: ciMask}" class="form-control" type="text" placeholder="Cedula" formControlName="cedula" [ngClass]=" { 'is-invalid': forma.get('cedula').invalid && !forma.get('cedula').pristine } ">
         <div class="invalid-feedback" *ngIf="forma.controls['cedula'].errors?.required" class="invalid-feedback">
@@ -22,15 +22,15 @@
         </div>
     </div>
 
-    <div class="form-group row col-10">
+    <div class="form-group row col-sm-12">
         <label>Teléfono: </label>
-        <input [attr.disabled]="isEditionEnabled ? null: ''" class="form-control" type="text" placeholder="Telefono" formControlName="telefono" [ngClass]=" { 'is-invalid': forma.get('telefono').invalid } ">
+        <input [attr.disabled]="isEditionEnabled ? null: ''" patterns="customPatterns" mask="000 000 000" class="form-control" type="text" placeholder="Telefono" formControlName="telefono" [ngClass]=" { 'is-invalid': forma.get('telefono').invalid } ">
         <div class="invalid-feedback" *ngIf="forma.controls['telefono'].errors?.required" class="invalid-feedback">
             El teléfono es necesario.
         </div>
     </div>
 
-    <div class="form-group row col-10">
+    <div class="form-group row col-sm-12">
         <label>Dirección: </label>
         <input [attr.disabled]="isEditionEnabled ? null: ''" class="form-control" type="text" placeholder="Dirección" formControlName="direccion" [ngClass]=" { 'is-invalid': forma.get('direccion').invalid } ">
         <div class="invalid-feedback" *ngIf="forma.controls['direccion'].errors?.required" class="invalid-feedback">
@@ -38,7 +38,7 @@
         </div>
     </div>
 
-    <div class="form-group row col-10">
+    <div class="form-group row col-sm-12">
         <label>Fecha Nacimiento: </label>
         <input [attr.disabled]="isEditionEnabled ? null: ''" class="form-control" type="text" placeholder="Fecha Nacimiento" formControlName="fechaNacimiento" [ngClass]=" { 'is-invalid': forma.get('fechaNacimiento').invalid } ">
         <div class="invalid-feedback" *ngIf="forma.controls['fechaNacimiento'].errors?.required" class="invalid-feedback">
@@ -49,21 +49,30 @@
 </form>
 
 <div class=" form-group row">
-    <div class="input-group col-md-10 ">
-        <button type="button " class="btn btn-outline-primary mr-1" *ngIf="!isForModal" (click)="toggleEdition()"> 
-            <i class="fas fa-edit"></i> Edit
-        </button>
-        <button type="button " class="btn btn-outline-success " [disabled]="forma.invalid" (click)="saveChanges()"> 
+    <div class="col-md-12">
+        <button type="button " class="float-right btn btn-outline-success col-md-2" [disabled]="forma.invalid" (click)="saveChanges(forma)"> 
             <!-- [disabled]="forma.invalid " -->
             <i class="fas fa-save"></i> Guardar
         </button>
+        <button type="button " class="float-right btn btn-outline-primary mr-1 col-md-1" *ngIf="!isForModal" (click)="toggleEdition()"> 
+            <i class="fas fa-edit"></i> Edit
+        </button>
     </div>
 </div>
-<br>
-<br>
-<hr>
+
 <div *ngIf="!isForModal">
-    <h1>Servicios</h1>
+    <h1>
+        Servicios
+    </h1>
+    <mat-form-field>
+        <mat-label>Seleccione servicio a agregar</mat-label>
+        <mat-select>
+            <mat-option *ngFor="let service of services" (onSelectionChange)="servicioSeleccionado(service, $event)" [value]='service.nombre'>
+                {{service.nombre}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
     <mat-table *ngIf="clientServicesData.length > 0" mat-table [dataSource]="clientServicesData" matSort (matSortChange)="sortData($event)" class="mat-elevation-z1">
 
         <!-- <ng-container matColumnDef="nombre">
@@ -83,7 +92,7 @@
 
         <ng-container matColumnDef="fechaAsociado">
             <mat-header-cell mat-header-cell *matHeaderCellDef mat-sort-header> Fecha Asociado </mat-header-cell>
-            <mat-cell mat-cell *matCellDef="let row"> {{row.fechaAsociado}} </mat-cell>
+            <mat-cell mat-cell *matCellDef="let row"> {{row.fechaAsociado | date: 'dd/MM/yyyy'}} </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="tools">
@@ -96,5 +105,5 @@
         <mat-header-row mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
         <mat-row mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>
-    <mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="loadPage($event)" class="mat-elevation-z1"></mat-paginator>
+    <!-- <mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="loadPage($event)" class="mat-elevation-z1"></mat-paginator> -->
 </div>

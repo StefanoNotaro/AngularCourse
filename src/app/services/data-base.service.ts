@@ -30,7 +30,7 @@ export class DataBaseService {
   }
 
   postNewClient(client: Cliente) {
-    return this._httpClient.post(`${this.baseUrl}/client`, client);
+    return this._httpClient.post(`${this.baseUrl}/cliente`, client);
   }
 
   getServices() {
@@ -61,7 +61,7 @@ export class DataBaseService {
     return this._httpClient.delete(`${ this.baseUrl }/clienteServicio/${ clienteServicio.id }`);
   }
 
-  postNewServicesForClients(clienteServicio: ClienteServicio) {
+  postNewServicesForClients<ClienteServicio>(clienteServicio: ClienteServicio) {
     return this._httpClient.post(`${this.baseUrl}/clienteServicio`, clienteServicio);
   }
 }

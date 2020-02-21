@@ -31,16 +31,16 @@ export class ClientsComponent implements OnInit {
 
   closeResult: string;
 
-    constructor(private _databaseService: DataBaseService, private _router: Router, private modalService: NgbModal) {
-      _databaseService.getClients().subscribe(x => {
-        this.clients = x.slice(0, this.pageSize);
-        this.length = x.length;
-        this.allClients = x;
-      });
-      if (this.displayCheckBox) {
-        this.displayedColumns.unshift('select');
-      }
+  constructor(private _databaseService: DataBaseService, private _router: Router, private modalService: NgbModal) {
+    _databaseService.getClients().subscribe(x => {
+      this.clients = x.slice(0, this.pageSize);
+      this.length = x.length;
+      this.allClients = x;
+    });
+    if (this.displayCheckBox) {
+      this.displayedColumns.unshift('select');
     }
+  }
 
   ngOnInit() {
   }
@@ -95,7 +95,6 @@ export class ClientsComponent implements OnInit {
   }
 
   clientInfo(client) {
-    console.log(client);
     this._router.navigate(['/cliente', client.id]);
   }
 
@@ -109,34 +108,41 @@ export class ClientsComponent implements OnInit {
     });
   }
 
-  edit(client: Cliente) {
-    this.selectedClient = client;
-    console.log(this.selectedClient);
-    this.openModal = !this.openModal;
+  newClient(newClientModal) {
+    // const start = this.pageSize * event.pageIndex;
+    // this.clients = this.allClients.slice(start, start + event.pageSize);
+    this.modalService.open(newClientModal, {ariaLabelledBy: 'modal-basic-title', size: 'lg'})
+      .result.then((result) => {
+        this.closeResult = `Closed with: ${result}`;
+      }, (reason) => {
+        console.log(reason);
+        if (reason) {
+          this.clients.push(reason);
+          this.allClients.push(reason);
+          this.clients = this.clients.slice();
+          this.length += 1;
+        }
+      });
   }
 
-  open(content, client: Cliente) {
+  open(content, client: Cliente, index: number) {
 
     this.selectedClient = client;
     this.openModal = !this.openModal;
 
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-      console.log('object');
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-      console.log(this.closeResult);
-    });
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg'})
+      .result.then((result) => {
+      }, (reason) => {
+        console.log(typeof reason);
+        if (reason instanceof Cliente) {
+          this.clients[index] = {...reason};
+          this.clients = this.clients.slice();
+        }
+      });
   }
 
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return  `with: ${reason}`;
-    }
+  guardado(guardado) {
+    this.modalService.dismissAll(guardado);
   }
 
 }
