@@ -2,7 +2,7 @@
   "cliente": [
     {
       "nombreCompleto": "Pablo Acosta",
-      "fechaNacimiento": "1993-02-25T18:25:43.511Z",
+      "fechaNacimiento": "19930225",
       "cedula": "66913574",
       "telefono": "22085421",
       "direccion": "Bulevar Artigas 1261",
@@ -50,7 +50,7 @@
     },
     {
       "nombreCompleto": "10.Stefano Notaro",
-      "fechaNacimiento": "1990-10-30T18:25:43.511Z",
+      "fechaNacimiento": "11111111",
       "cedula": "45846297",
       "telefono": "097478640",
       "direccion": "Algun Lugar de Narnia",
@@ -65,19 +65,27 @@
       "id": 13
     },
     {
-      "nombreCompleto": "Stefano Notaro",
+      "nombreCompleto": "Stefano Notaro123",
       "fechaNacimiento": "19941114",
       "cedula": "45846297",
       "telefono": "097478640",
       "direccion": "Algun Lugar de narnia",
       "id": 14
+    },
+    {
+      "nombreCompleto": "Alfonsina",
+      "cedula": "49794412",
+      "direccion": "Narnia",
+      "telefono": "091111111",
+      "fechaNacimiento": "1997/12/29",
+      "id": 15
     }
   ],
   "servicios": [
     {
-      "id": 1,
       "nombre": "Seguro Hogar",
-      "cuotaMensual": 200
+      "cuotaMensual": 205,
+      "id": 1
     },
     {
       "id": 2,
@@ -95,18 +103,18 @@
       "id": 4
     },
     {
-      "nombre": "Stefano 3",
+      "nombre": "Stefano",
       "cuotaMensual": 9000,
       "id": 6
     },
     {
-      "nombre": "Otro",
-      "cuotaMensual": 11,
+      "nombre": "Otro mas",
+      "cuotaMensual": 1001,
       "id": 7
     },
     {
-      "nombre": "Otro212",
-      "cuotaMensual": 11123,
+      "nombre": "test",
+      "cuotaMensual": 111,
       "id": 8
     }
   ],
@@ -136,16 +144,58 @@
       "id": 8
     },
     {
-      "clienteId": 14,
-      "servicioId": 8,
-      "fechaAsociado": "Fri Feb 21 2020 14:55:19 GMT-0300 (Uruguay Standard Time)",
-      "id": 10
-    },
-    {
       "clienteId": 13,
       "servicioId": 2,
       "fechaAsociado": "Fri Feb 21 2020 17:19:10 GMT-0300 (Uruguay Standard Time)",
       "id": 11
+    },
+    {
+      "clienteId": 15,
+      "servicioId": 6,
+      "fechaAsociado": "Fri Feb 21 2020 20:02:03 GMT-0300 (hora estándar de Uruguay)",
+      "id": 12
+    },
+    {
+      "clienteId": 15,
+      "servicioId": 2,
+      "fechaAsociado": "Fri Feb 21 2020 20:02:12 GMT-0300 (hora estándar de Uruguay)",
+      "id": 13
+    },
+    {
+      "clienteId": 13,
+      "servicioId": 6,
+      "fechaAsociado": "Fri Feb 21 2020 21:02:01 GMT-0300 (hora estándar de Uruguay)",
+      "id": 14
+    },
+    {
+      "clienteId": 1,
+      "servicioId": 1,
+      "fechaAsociado": "Fri Feb 21 2020 21:08:01 GMT-0300 (hora estándar de Uruguay)",
+      "id": 15
+    },
+    {
+      "clienteId": 1,
+      "servicioId": 3,
+      "fechaAsociado": "Fri Feb 21 2020 21:08:22 GMT-0300 (hora estándar de Uruguay)",
+      "id": 16
+    },
+    {
+      "clienteId": 1,
+      "servicioId": 4,
+      "fechaAsociado": "Fri Feb 21 2020 21:08:29 GMT-0300 (hora estándar de Uruguay)",
+      "id": 17
+    },
+    {
+      "clienteId": 1,
+      "servicioId": 3,
+      "fechaAsociado": "Fri Feb 21 2020 21:08:37 GMT-0300 (hora estándar de Uruguay)",
+      "id": 18
+    },
+    {
+      "clienteId": 1,
+      "servicioId": 1,
+      "fechaAsociado": "Fri Feb 21 2020 21:08:49 GMT-0300 (hora estándar de Uruguay)",
+      "id": 19
     }
   ]
 }

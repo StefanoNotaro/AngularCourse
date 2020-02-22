@@ -5,6 +5,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { Cliente } from '../models/cliente.model';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NotificationBO } from '../models/notificationBO.model';
 
 @Component({
   selector: 'app-clients',
@@ -15,10 +16,9 @@ export class ClientsComponent implements OnInit {
 
   openModal = false;
 
-  showNotification = false;
-  notificationTitle = '';
-  icon = 'success';
-  showCancelButton = false;
+  showDeleteNotification = false;
+  showEditionNotification = false;
+  notificationConfigurations: NotificationBO;
 
   length: number;
   pageSize = 10;
@@ -26,7 +26,6 @@ export class ClientsComponent implements OnInit {
   actualPage = 0;
 
   selectedClient: Cliente;
-  clientToDelete: Cliente;
   indexTorefresh: number;
 
   displayedColumns: string[] = ['nombreCompleto', 'cedula', 'tools'];
@@ -49,7 +48,7 @@ export class ClientsComponent implements OnInit {
 
   loadPage(event) {
     const start = this.pageSize * event.pageIndex;
-    this.clients = this.allClients.slice(start, start + event.pageSize);
+    this.clients = this.allClients.filter(x => x.cedula.startsWith(this.ciFilter.trim().toLowerCase())).slice(start, start + event.pageSize);
     this.pageSize = event.pageSize;
     this.actualPage = event.pageIndex;
   }
@@ -81,34 +80,31 @@ export class ClientsComponent implements OnInit {
     this._router.navigate(['/cliente', client.id]);
   }
 
-  deleteClient(client: Cliente, index: number) {
-    this.clientToDelete = client;
-    console.log(this.clientToDelete);
-    this.indexTorefresh = index;
-    index = this.actualPage * this.pageSize + index;
-    this.notificationTitle = `Desea borrar a ${client.nombreCompleto}?`;
-    this.icon = 'warning';
-    this.showCancelButton = true;
-    this.showNotification = true;
-    
-    // this._databaseService.deleteClient(client).subscribe(x => {
-    //   this.allClients.splice(index, 1);
-    //   const start = this.pageSize * this.actualPage;
-    //   this.clients = this.allClients.slice(start, start + this.pageSize);
-    //   this.length = this.length - 1;
-    // });
+  ciFilter = '';
+  applyFilter(event) {
+    this.ciFilter = (event.target as HTMLInputElement).value;
+    console.log(this.ciFilter);
+    const start = this.pageSize * this.actualPage;
+    this.clients = this.allClients.filter(x => x.cedula.startsWith(this.ciFilter.trim().toLowerCase())).slice(start, start + this.pageSize);
+    this.length = this.allClients.filter(x => x.cedula.startsWith(this.ciFilter.trim().toLowerCase())).length;
   }
 
-  deleteClientFromDataBase(response) {
-    if (response !== -1) {
-      this._databaseService.deleteClient(this.clientToDelete).subscribe(x => {
+  deleteClient(client: Cliente, index: number) {
+    this.indexTorefresh = index;
+    this.notificationConfigurations = new NotificationBO('warning', `Desea borrar a ${client.nombreCompleto}?`, true, true, client);
+    this.showDeleteNotification = true;
+  }
+
+  deleteClientFromDataBase(response: NotificationBO) {
+    if (response.confirmation) {
+      this._databaseService.deleteClient(response.object as Cliente).subscribe(x => {
         this.allClients.splice(this.indexTorefresh, 1);
         const start = this.pageSize * this.actualPage;
-        this.clients = this.allClients.slice(start, start + this.pageSize);
+        this.clients = this.allClients.filter(y => y.cedula.startsWith(this.ciFilter.trim().toLowerCase())).slice(start, start + this.pageSize);
         this.length = this.length - 1;
       });
     }
-    this.showNotification = false;
+    this.showDeleteNotification = false;
   }
 
   newClient(newClientModal) {
@@ -126,14 +122,13 @@ export class ClientsComponent implements OnInit {
       });
   }
 
-  editClient(content, client: Cliente, index: number) {
+  editClient(editClientModal, client: Cliente, index: number) {
     this.selectedClient = client;
     this.openModal = !this.openModal;
 
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg'})
+    this.modalService.open(editClientModal, {ariaLabelledBy: 'modal-basic-title', size: 'lg'})
       .result.then((result) => {
       }, (reason) => {
-        console.log(typeof reason);
         if (reason instanceof Cliente) {
           const allClientIndex = this.actualPage * this.pageSize + index;
           this.allClients[allClientIndex] = {...reason};
@@ -143,8 +138,15 @@ export class ClientsComponent implements OnInit {
       });
   }
 
+  editionNotificationOutPut(event) {
+    this.showEditionNotification = false;
+  }
+
   guardado(guardado) {
     this.modalService.dismissAll(guardado);
+
+    this.notificationConfigurations = new NotificationBO('success', 'Guardado con éxito!');
+    this.showEditionNotification = true;
   }
 
 }

@@ -7,7 +7,9 @@ import { MatTableModule,
   MatToolbarModule,
   MatIconModule,
   MatSelectModule,
-  MatTooltipModule } from '@angular/material';
+  MatTooltipModule,
+  MatExpansionModule,
+  MatInputModule } from '@angular/material';
 
 @NgModule({
   declarations: [],
@@ -19,7 +21,9 @@ import { MatTableModule,
     MatToolbarModule,
     MatIconModule,
     MatSelectModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatExpansionModule,
+    MatInputModule
   ],
   imports: [
     CommonModule,
@@ -30,7 +34,9 @@ import { MatTableModule,
     MatToolbarModule,
     MatIconModule,
     MatSelectModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatExpansionModule,
+    MatInputModule
   ]
 })
 export class MaterialsModule { }

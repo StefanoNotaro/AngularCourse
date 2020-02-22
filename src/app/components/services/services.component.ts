@@ -5,6 +5,7 @@ import { Sort } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { NotificationBO } from '../models/notificationBO.model';
 
 @Component({
   selector: 'app-services',
@@ -15,10 +16,15 @@ export class ServicesComponent implements OnInit {
 
   forma: FormGroup;
 
+  showDeleteNotification = false;
+  showEditionNotification = false;
+  notificationConfigurations: NotificationBO;
+
   length: number;
   pageSize = 10;
   pageSizeOptions: number[] = [5, 10, 25, 100];
   actualPage = 0;
+  indexTorefresh: number;
 
   displayedColumns: string[] = ['nombre', 'cuotaMensual', 'tools'];
 
@@ -68,7 +74,7 @@ export class ServicesComponent implements OnInit {
     this.services = data.sort((a, b) => {
       const isAsc = sort.direction === 'asc';
       switch (sort.active) {
-        case 'nomnre': return compare(a.nombre, b.nombre, isAsc);
+        case 'nombre': return compare(a.nombre, b.nombre, isAsc);
         case 'cuotaMensual': return compare(a.cuotaMensual, b.cuotaMensual, isAsc);
         case 'id': return compare(a.id, b.id, true);
         default: return 0;
@@ -77,13 +83,21 @@ export class ServicesComponent implements OnInit {
   }
 
   deleteService(service: Servicio, index: number) {
-    index = this.actualPage * this.pageSize + index;
-    this._databaseService.deleteService(service).subscribe(x => {
-      this.allServices.splice(index, 1);
-      const start = this.pageSize * this.actualPage;
-      this.services = this.allServices.slice(start, start + this.pageSize);
-      this.length = this.length - 1;
-    });
+    this.indexTorefresh = this.actualPage * this.pageSize + index;
+    this.notificationConfigurations = new NotificationBO('warning', `Desea borrar el ${service.nombre} ?`, true, true, service);
+    this.showDeleteNotification = true;
+  }
+
+  deleteServiceConfirmation(configuration: NotificationBO) {
+    if (configuration.confirmation) {
+      this._databaseService.deleteService(configuration.object as Servicio).subscribe(x => {
+        this.allServices.splice(this.indexTorefresh, 1);
+        const start = this.pageSize * this.actualPage;
+        this.services = this.allServices.slice(start, start + this.pageSize);
+        this.length = this.length - 1;
+      });
+    }
+    this.showDeleteNotification = false;
   }
 
   newService(newServiceModal) {
@@ -109,6 +123,8 @@ export class ServicesComponent implements OnInit {
     this.forma.controls.id.setValue(service.id);
     this.modalService.open(newServiceModal, {ariaLabelledBy: 'modal-basic-title', size: 'lg'})
     .result.then((result) => {
+      this.notificationConfigurations = new NotificationBO('success', `Datos actualizados correctamente`);
+      this.showEditionNotification = true;
       const editedService = new Servicio(result.nombre.value, +result.cuota.value);
       editedService.id = result.id.value;
       const allServiceIndex = this.actualPage * this.pageSize + index;
@@ -124,6 +140,14 @@ export class ServicesComponent implements OnInit {
       }, (reason) => {
         this.forma.reset();
       });
+  }
+
+  editServiceConfirmation(notificationConfiguration: NotificationBO) {
+    if (notificationConfiguration.confirmation) {
+      console.log(notificationConfiguration);
+    }
+
+    this.showEditionNotification = false;
   }
 
 }

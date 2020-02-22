@@ -1,4 +1,12 @@
-<button class="btn btn-outline-secondary" (click)="newClient(newClientModal)"><i class="fa fa-plus-circle" aria-hidden="true"> Agregar Cliente</i></button>
+<div class="row container">
+    <button class="btn btn-outline-secondary" (click)="newClient(newClientModal)"><i class="fa fa-plus-circle" aria-hidden="true"> Agregar Cliente</i></button>
+</div>
+<div class="row container">
+    <mat-form-field>
+        <mat-label>CI Filter</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium">
+    </mat-form-field>
+</div>
 <mat-table mat-table [dataSource]="clients" matSort (matSortChange)="sortData($event)" class="mat-elevation-z1">
     <mat-toolbar>My App</mat-toolbar>
 
@@ -36,9 +44,6 @@
     <div class="container">
         <app-client [isForModal]="true" [client]="selectedClient" (guardado)="guardado($event)"></app-client>
     </div>
-    <!-- <div class="modal-footer">
-        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
-    </div> -->
 </ng-template>
 
 <ng-template #newClientModal let-modal>
@@ -48,10 +53,7 @@
     <div class="modal-body">
         <app-client [isForModal]="true" (guardado)="guardado($event)"></app-client>
     </div>
-    <!-- <div class="modal-footer">
-        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
-    </div> -->
 </ng-template>
 
-<!-- <app-notification *ngIf="showNotification" [action]="deleteClientFromDataBase" [icon]="icon" (response)="handleNotificationResponse($event)" [showCancelButton]="showCancelButton" [title]="notificationTitle"></app-notification> -->
-<app-notification *ngIf="showNotification" [icon]="icon" [id]="clientToDelete.id" (test)="deleteClientFromDataBase($event)" [showCancelButton]="showCancelButton" [title]="notificationTitle"></app-notification>
+<app-notification *ngIf="showDeleteNotification" [configurations]="notificationConfigurations" (outPut)="deleteClientFromDataBase($event)"></app-notification>
+<app-notification *ngIf="showEditionNotification" [configurations]="notificationConfigurations" (outPut)="editionNotificationOutPut($event)"></app-notification>

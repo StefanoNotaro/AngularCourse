@@ -2,7 +2,8 @@
 <mat-table mat-table [dataSource]="services" matSort (matSortChange)="sortData($event)" class="mat-elevation-z1">
 
     <ng-container matColumnDef="nombre">
-        <mat-header-cell mat-header-cell *matHeaderCellDef mat-sort-header> Servicio </mat-header-cell>
+        <mat-header-cell mat-header-cell *matHeaderCellDef mat-sort-header>Servicio
+        </mat-header-cell>
         <mat-cell mat-cell *matCellDef="let service"> {{service.nombre}} </mat-cell>
     </ng-container>
 
@@ -60,3 +61,6 @@
         <button type="button" class="btn btn-outline-dark" [disabled]="forma.invalid" (click)="modal.close(forma.controls)">Save</button>
     </div>
 </ng-template>
+
+<app-notification *ngIf="showDeleteNotification" [configurations]="notificationConfigurations" (outPut)="deleteServiceConfirmation($event)"></app-notification>
+<app-notification *ngIf="showEditionNotification" [configurations]="notificationConfigurations" (outPut)="editServiceConfirmation($event)"></app-notification>

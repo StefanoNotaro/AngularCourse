@@ -18,6 +18,7 @@ import { ServicesComponent } from './components/services/services.component';
 import { CiFormatPipe } from './pipes/ci-format.pipe';
 import { ClientComponent } from './components/client/client.component';
 import { NotificationComponent } from './components/notification/notification.component';
+import { ClientsReportComponent } from './components/clients-report/clients-report.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { NotificationComponent } from './components/notification/notification.co
     ServicesComponent,
     CiFormatPipe,
     ClientComponent,
-    NotificationComponent
+    NotificationComponent,
+    ClientsReportComponent
   ],
   imports: [
     BrowserModule,

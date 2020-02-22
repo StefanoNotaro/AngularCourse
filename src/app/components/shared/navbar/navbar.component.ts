@@ -9,7 +9,7 @@ export class NavbarComponent implements OnInit {
 
   navbarTitle = 'PractiaEvaluation';
 
-  rutas: string[] = ['Clientes', 'Servicios'];
+  rutas: string[] = ['Clientes', 'Servicios', 'Reporte'];
 
   constructor() { }
 

@@ -77,10 +77,6 @@
         <button type="button " class="float-right btn btn-outline-success col-md-2" [disabled]="forma.invalid" (click)="saveChanges(forma)">
             <i class="fas fa-save"></i> Guardar
         </button>
-
-        <button type="button " class="float-right btn btn-outline-success col-md-2" (click)="printForma(forma)">
-            <i class="fas fa-save"></i> printForma
-        </button>
         <button type="button " class="float-right btn btn-outline-primary mr-1 col-md-1" *ngIf="!isForModal" (click)="toggleEdition()"> 
             <i class="fas fa-edit"></i> Edit
         </button>
@@ -101,11 +97,6 @@
     </mat-form-field>
 
     <mat-table *ngIf="clientServicesData.length > 0" mat-table [dataSource]="clientServicesData" matSort (matSortChange)="sortData($event)" class="mat-elevation-z1">
-
-        <!-- <ng-container matColumnDef="nombre">
-            <mat-header-cell class="font-weight-bold" mat-header-cell *matHeaderCellDef mat-sort-header> Servicio</mat-header-cell>
-            <mat-cell mat-cell *matCellDef="let row"> {{row.nombre}} </mat-cell>
-        </ng-container> -->
 
         <ng-container matColumnDef="serviceName">
             <mat-header-cell mat-header-cell *matHeaderCellDef mat-sort-header> Servicio </mat-header-cell>
@@ -131,11 +122,10 @@
 
         <mat-header-row mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
         <mat-row mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
     </mat-table>
     <!-- <mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="loadPage($event)" class="mat-elevation-z1"></mat-paginator> -->
 </div>
 
-
-
-<!-- <app-notification *ngIf="showNotification" [icon]="icon" (response)="handleNotificationResponse($event)" [showCancelButton]="showCancelButton" [title]="notificationTitle"></app-notification> -->
-<app-notification *ngIf="showNotification" [icon]="icon" (test)="handleNotificationResponse($event)" [showCancelButton]="showCancelButton" [title]="notificationTitle"></app-notification>
+<app-notification *ngIf="showSuccessNotification" [configurations]="notificationConfigurations" (outPut)="closeNotification($event)"></app-notification>
+<app-notification *ngIf="showDeleteNotification" [configurations]="notificationConfigurations" (outPut)="deleteServiceConfirmation($event)"></app-notification>

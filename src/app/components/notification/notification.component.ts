@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import Swal from 'sweetalert2';
+import { NotificationBO } from '../models/notificationBO.model';
 
 @Component({
   selector: 'app-notification',
@@ -8,39 +9,26 @@ import Swal from 'sweetalert2';
 })
 export class NotificationComponent implements OnInit {
 
-  @Input() title: string;
-  @Input() icon;
-  @Input() showConfirmButton: boolean;
-  @Input() showCancelButton = false;
-  @Input() action: any;
-  @Input() id: number;
-  @Output() test = new EventEmitter<number>();
-  // @Output() response = new EventEmitter<boolean>();
+  @Input() configurations: NotificationBO;
+
+  @Output() outPut = new EventEmitter<NotificationBO>();
 
   constructor() {
-    this.showConfirmButton = true;
   }
 
   ngOnInit() {
     Swal.fire({
-      icon: this.icon,
-      title: this.title,
-      showConfirmButton: this.showConfirmButton,
-      showCancelButton: this.showCancelButton
+      icon: this.configurations.icon as any,
+      title: this.configurations.title,
+      showConfirmButton: this.configurations.showConfirmButton,
+      showCancelButton: this.configurations.showCancelButton
     }).then((result: any) => {
       if (result.value) {
-        // if (this.action) {
-        //   this.action(true);
-        // }
-        // this.response.emit(true);
-
-        this.test.emit(this.id);
+        this.configurations.confirmation = true;
+        this.outPut.emit(this.configurations);
       } else {
-        // if (this.action) {
-        //   this.action(false);
-        // }
-        // this.response.emit(false);
-        this.test.emit(-1);
+        this.configurations.confirmation = false;
+        this.outPut.emit(this.configurations);
       }
     });
   }

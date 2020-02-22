@@ -1,0 +1,19 @@
+<h4>Reporte por clientes</h4>
+<hr>
+
+<div *ngIf="groupedServicesByClients.length > 0" class="div">
+    <mat-accordion>
+        <mat-expansion-panel *ngFor="let client of groupedServicesByClients" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    {{client.clientName}}
+                </mat-panel-title>
+                <mat-panel-description>
+                    Total de las cuotas: {{client.total | currency}}
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <p *ngFor="let service of client.services"><i class="fa fa-arrow-right" aria-hidden="true"></i> {{service.nombre}} - {{service.cuotaMensual | currency}}</p>
+        </mat-expansion-panel>
+    </mat-accordion>
+</div>

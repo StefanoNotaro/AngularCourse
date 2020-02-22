@@ -8,6 +8,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { Servicio } from '../models/servicio.model';
 import { ClientServiceBO } from '../models/clientServiceBO.model';
 import { ClienteServicio } from '../models/cliente-servicio.model';
+import { NotificationBO } from '../models/notificationBO.model';
 
 @Component({
   selector: 'app-client',
@@ -18,10 +19,9 @@ export class ClientComponent implements OnInit {
 
   forma: FormGroup;
 
-  showNotification = false;
-  notificationTitle = '';
-  icon = 'success';
-  showCancelButton = false;
+  notificationConfigurations: NotificationBO;
+  showSuccessNotification = false;
+  showDeleteNotification = false;
 
   isEditionEnabled = false;
 
@@ -44,6 +44,7 @@ export class ClientComponent implements OnInit {
   pageSize = 10;
   pageSizeOptions: number[] = [5, 10, 25, 100];
   actualPage = 0;
+  indexTorefresh: number;
   selection = new SelectionModel<ClienteServicio>(true, []);
 
   constructor(public _activatedRoute: ActivatedRoute, private _databaseService: DataBaseService, private _router: Router) {
@@ -86,9 +87,8 @@ export class ClientComponent implements OnInit {
           });
         }, err => {
           console.error('Oops:', err);
-          this.notificationTitle = 'El cliente no existe';
-          this.icon = 'error';
-          this.showNotification = true;
+          this.notificationConfigurations = new NotificationBO('error', 'El Cliente no existe');
+          this.showSuccessNotification = true;
         });
       });
     } else {
@@ -115,10 +115,20 @@ export class ClientComponent implements OnInit {
   }
 
   deleteServiceForUser(row: ClientServiceBO, index: number) {
-    const clientServiceToDelete: ClienteServicio = this.clientServices.filter(x => x.id === row.clienteServicioId).pop();
-    this._databaseService.deleteServicesForClients(clientServiceToDelete).subscribe();
-    this.clientServicesData.splice(index, 1);
-    this.clientServicesData = this.clientServicesData.slice();
+
+    this.indexTorefresh = index;
+    this.notificationConfigurations = new NotificationBO('warning', `Desea borrar el ${row.serviceName} ?`, true, true, row);
+    this.showDeleteNotification = true;
+  }
+
+  deleteServiceConfirmation(configurations: NotificationBO) {
+    if (configurations.confirmation ) {
+      const clientServiceToDelete = this.clientServices.filter(x => x.id === configurations.object.clienteServicioId).pop();
+      this._databaseService.deleteServicesForClients(clientServiceToDelete).subscribe();
+      this.clientServicesData.splice(this.indexTorefresh, 1);
+      this.clientServicesData = this.clientServicesData.slice();
+    }
+    this.showDeleteNotification = false;
   }
 
   ciValidation( control: FormControl ): { [s: string]: boolean } {
@@ -180,15 +190,15 @@ export class ClientComponent implements OnInit {
         this.guardado.emit(
             client
           );
-        this.notificationTitle = 'Guardado con exito!';
-        this.showNotification = true;
-        }, err => {
-          console.error('Oops:', err);
-          this.guardado.emit(null);
-          this.notificationTitle = 'Ocurrió un error al actualizar al cliente';
-          this.icon = 'error';
-          this.showNotification = true;
-        });
+
+        this.notificationConfigurations = new NotificationBO('success', 'Guardado con éxito!');
+        this.showSuccessNotification = true;
+      }, err => {
+        console.error('Oops:', err);
+        this.guardado.emit(null);
+        this.notificationConfigurations = new NotificationBO('error', 'Ocurrió un error al actualizar al cliente!');
+        this.showSuccessNotification = true;
+      });
     } else {
       this._databaseService.postNewClient(client).subscribe(x => {
         this.guardado.emit(x as Cliente);
@@ -196,18 +206,14 @@ export class ClientComponent implements OnInit {
         console.error('Error saving new client:', err);
         this.guardado.emit(null);
 
-        this.notificationTitle = 'Ocurrió un error al guardar el cliente';
-        this.icon = 'error';
-        this.showNotification = true;
+        this.notificationConfigurations = new NotificationBO('error', 'Ocurrió un error al guardar al cliente!');
+        this.showSuccessNotification = true;
       });
     }
   }
-  printForma(forma) {
-    console.log(forma);
-  }
 
-  handleNotificationResponse(response) {
-    this.showNotification = false;
+  closeNotification(response) {
+    this.showSuccessNotification = false;
   }
 
   servicioSeleccionado(service, event) {
@@ -223,6 +229,8 @@ export class ClientComponent implements OnInit {
         );
         this.clientServicesData = this.clientServicesData.slice();
       });
+    this.notificationConfigurations = new NotificationBO('success', 'Servicio agregado con exito');
+    this.showSuccessNotification = true;
   }
 
   toggleEdition() {
